@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Star;
+use App\Entity\Reaction;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method Star|null find($id, $lockMode = null, $lockVersion = null)
- * @method Star|null findOneBy(array $criteria, array $orderBy = null)
- * @method Star[]    findAll()
- * @method Star[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Reaction|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Reaction|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Reaction[]    findAll()
+ * @method Reaction[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class StarRepository extends ServiceEntityRepository
+class ReactionRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, Star::class);
+        parent::__construct($registry, Reaction::class);
     }
 
     // /**
-    //  * @return Star[] Returns an array of Star objects
+    //  * @return Reaction[] Returns an array of Reaction objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class StarRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Star
+    public function findOneBySomeField($value): ?Reaction
     {
         return $this->createQueryBuilder('s')
             ->andWhere('s.exampleField = :val')

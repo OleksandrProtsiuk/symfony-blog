@@ -40,9 +40,9 @@ class Post
     private $comments;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Star", mappedBy="post_id", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="Reaction", mappedBy="post_id", orphanRemoval=true)
      */
-    private $stars;
+    private $reactions;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Tag", mappedBy="post_id")
@@ -52,7 +52,7 @@ class Post
     public function __construct()
     {
         $this->comments = new ArrayCollection();
-        $this->stars = new ArrayCollection();
+        $this->reactions = new ArrayCollection();
         $this->tags = new ArrayCollection();
     }
 
@@ -129,30 +129,30 @@ class Post
     }
 
     /**
-     * @return Collection|Star[]
+     * @return Collection|Reaction[]
      */
-    public function getStars(): Collection
+    public function getReactions(): Collection
     {
-        return $this->stars;
+        return $this->reactions;
     }
 
-    public function addStar(Star $star): self
+    public function addReaction(Reaction $reaction): self
     {
-        if (!$this->stars->contains($star)) {
-            $this->stars[] = $star;
-            $star->setPostId($this);
+        if (!$this->reactions->contains($reaction)) {
+            $this->reactions[] = $reaction;
+            $reaction->setPostId($this);
         }
 
         return $this;
     }
 
-    public function removeStar(Star $star): self
+    public function removeReaction(Reaction $reaction): self
     {
-        if ($this->stars->contains($star)) {
-            $this->stars->removeElement($star);
+        if ($this->reactions->contains($reaction)) {
+            $this->reactions->removeElement($reaction);
             // set the owning side to null (unless already changed)
-            if ($star->getPostId() === $this) {
-                $star->setPostId(null);
+            if ($reaction->getPostId() === $this) {
+                $reaction->setPostId(null);
             }
         }
 

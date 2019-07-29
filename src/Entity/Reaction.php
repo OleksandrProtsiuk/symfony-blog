@@ -3,11 +3,18 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\StarRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\ReactionRepository")
+ * @UniqueEntity(
+ *     fields={"post_id", "user_id"},
+ *     errorPath="post_id",
+ *     errorPath="user_id",
+ *     message="No more reactions for this post!"
+ * )
  */
-class Star
+class Reaction
 {
     /**
      * @ORM\Id()
@@ -17,18 +24,18 @@ class Star
     private $id;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string", length=120)
      */
     private $legend;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="stars")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="reactions")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Post", inversedBy="stars")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Post", inversedBy="reactions")
      * @ORM\JoinColumn(nullable=false)
      */
     private $post_id;
@@ -38,13 +45,20 @@ class Star
         return $this->id;
     }
 
-    public function getLegend(): ?int
+    public function getLegend(): ?string
     {
         return $this->legend;
     }
 
-    public function setLegend(int $legend): self
+    const LIKE = 'like';
+    const DISLIKE = 'dislike';
+    const DONT_CARE = 'dont care';
+
+    public function setLegend(string $legend): self
     {
+        if (!in_array($legend, [self::LIKE, self::DISLIKE, self::DONT_CARE])) {
+            throw new \InvalidArgumentException("Invalid legend");
+        }
         $this->legend = $legend;
 
         return $this;

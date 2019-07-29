@@ -1,26 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Tag index{% endblock %}
+{% block title %}Reaction index{% endblock %}
 
 {% block body %}
-    <h1>Tag index</h1>
+    <h1>Reaction index</h1>
 
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Name</th>
+                <th>Legend</th>
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
-        {% for tag in tags %}
+        {% for reaction in reactions %}
             <tr>
-                <td>{{ tag.id }}</td>
-                <td>{{ tag.name }}</td>
+                <td>{{ reaction.id }}</td>
+                <td>{{ reaction.legend }}</td>
                 <td>
-                    <a href="{{ path('tag_show', {'id': tag.id}) }}">show</a>
-                    <a href="{{ path('tag_edit', {'id': tag.id}) }}">edit</a>
+                    <a href="{{ path('reaction_show', {'id': reaction.id}) }}">show</a>
+                    <a href="{{ path('reaction_edit', {'id': reaction.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -31,5 +31,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('tag_new') }}">Create new</a>
+    <a href="{{ path('reaction_new') }}">Create new</a>
 {% endblock %}

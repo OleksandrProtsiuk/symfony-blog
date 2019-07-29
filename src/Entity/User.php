@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -20,23 +21,30 @@ class User
 
     /**
      * @ORM\Column(type="string", length=120)
+     * @Assert\NotBlank()
+     * @Assert\Length(min="3", max="120")
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=120)
+     * @Assert\NotBlank()
+     * @Assert\Length(min="3", max="120")
      */
     private $login;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
+     * @Assert\Length(min="8", max="255")
      */
     private $password;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="string", length=120)
+     * @Assert\NotBlank()
      */
-    private $status;
+    private $role;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Post", mappedBy="user_id", orphanRemoval=true)
@@ -49,15 +57,15 @@ class User
     private $comments;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Star", mappedBy="user_id", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="Reaction", mappedBy="user_id", orphanRemoval=true)
      */
-    private $stars;
+    private $reactions;
 
     public function __construct()
     {
         $this->posts = new ArrayCollection();
         $this->comments = new ArrayCollection();
-        $this->stars = new ArrayCollection();
+        $this->reactions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -101,14 +109,20 @@ class User
         return $this;
     }
 
-    public function getStatus(): ?bool
+    public function getRole(): ?string
     {
-        return $this->status;
+        return $this->role;
     }
 
-    public function setStatus(bool $status): self
+    const ROLE_ADMIN = 'admin';
+    const ROLE_USER = 'user';
+
+    public function setRole(string $role): self
     {
-        $this->status = $status;
+        if (!in_array($role, [self::ROLE_ADMIN, self::ROLE_USER])) {
+            throw new \InvalidArgumentException("Invalid role");
+        }
+        $this->role = $role;
 
         return $this;
     }
@@ -176,33 +190,38 @@ class User
     }
 
     /**
-     * @return Collection|Star[]
+     * @return Collection|Reaction[]
      */
-    public function getStars(): Collection
+    public function getReactions(): Collection
     {
-        return $this->stars;
+        return $this->reactions;
     }
 
-    public function addStar(Star $star): self
+    public function addReaction(Reaction $reaction): self
     {
-        if (!$this->stars->contains($star)) {
-            $this->stars[] = $star;
-            $star->setUserId($this);
+        if (!$this->reactions->contains($reaction)) {
+            $this->reactions[] = $reaction;
+            $reaction->setUserId($this);
         }
 
         return $this;
     }
 
-    public function removeStar(Star $star): self
+    public function removeReaction(Reaction $reaction): self
     {
-        if ($this->stars->contains($star)) {
-            $this->stars->removeElement($star);
+        if ($this->reactions->contains($reaction)) {
+            $this->reactions->removeElement($reaction);
             // set the owning side to null (unless already changed)
-            if ($star->getUserId() === $this) {
-                $star->setUserId(null);
+            if ($reaction->getUserId() === $this) {
+                $reaction->setUserId(null);
             }
         }
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->id.'';
     }
 }
