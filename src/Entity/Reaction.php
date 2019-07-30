@@ -25,6 +25,9 @@ class Reaction
 
     /**
      * @ORM\Column(type="string", length=120)
+     * @Assert\NotBlank()
+     * @Assert\NotNull()
+     * @Assert\Length(min="3", max="120")
      */
     private $legend;
 

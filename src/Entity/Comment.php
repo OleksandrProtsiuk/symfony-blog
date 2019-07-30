@@ -18,6 +18,9 @@ class Comment
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
+     * @Assert\NotNull()
+     * @Assert\Length(min="5", max="255")
      */
     private $body;
 

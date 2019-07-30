@@ -20,11 +20,17 @@ class Post
 
     /**
      * @ORM\Column(type="string", length=120)
+     * @Assert\NotBlank()
+     * @Assert\NotNull()
+     * @Assert\Length(min="5", max="120")
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank()
+     * @Assert\NotNull()
+     * @Assert\Length(min="120")
      */
     private $body;
 
