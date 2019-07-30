@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -47,4 +48,16 @@ class UserRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findUsernameById($value): ?User
+    {
+        try {
+            return $this->createQueryBuilder('u')
+                ->andWhere('u.id = :id')
+                ->setParameter('id', $value)
+                ->getQuery()
+                ->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+        }
+    }
 }
