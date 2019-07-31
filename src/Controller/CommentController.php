@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Comment;
 use App\Form\CommentType;
 use App\Repository\CommentRepository;
+use App\Repository\PostRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,11 +27,12 @@ class CommentController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="comment_new", methods={"GET","POST"})
+     * @Route("/new/{post_id}", name="comment_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, $post_id, PostRepository $postRepository): Response
     {
         $comment = new Comment();
+        $comment->setPostId($postRepository->find($post_id));
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
 
@@ -39,7 +41,7 @@ class CommentController extends AbstractController
             $entityManager->persist($comment);
             $entityManager->flush();
 
-            return $this->redirectToRoute('comment_index');
+            return $this->redirect($request->headers->get('referer'));
         }
 
         return $this->render('comment/new.html.twig', [
@@ -69,7 +71,7 @@ class CommentController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('comment_index');
+            return $this->redirectToRoute('post_show', ['id' => $comment->getPostId()]);
         }
 
         return $this->render('comment/edit.html.twig', [
@@ -89,6 +91,6 @@ class CommentController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('comment_index');
+        return $this->redirect($request->headers->get('referer'));
     }
 }

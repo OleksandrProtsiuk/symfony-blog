@@ -85,6 +85,20 @@ class Post
         return $this->body;
     }
 
+    public function getBodyTruncated($limit): ?string
+    {
+        $break = ".";
+        $pad = "...";
+        $string = $this->body;
+        if (strlen($string) <= $limit) return $string;
+        if (false !== ($max = strpos($string, $break, $limit))) {
+            if ($max < strlen($string) - 1) {
+                $string = substr($string, 0, $max) . $pad;
+            }
+        }
+        return $string;
+    }
+
     public function setBody(string $body): self
     {
         $this->body = $body;
@@ -192,5 +206,10 @@ class Post
         }
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->id.'';
     }
 }

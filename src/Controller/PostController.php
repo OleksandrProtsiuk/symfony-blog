@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\Post;
+use App\Form\CommentType;
 use App\Form\PostType;
+use App\Repository\CommentRepository;
 use App\Repository\PostRepository;
-use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -40,7 +42,7 @@ class PostController extends AbstractController
             $entityManager->persist($post);
             $entityManager->flush();
 
-            return $this->redirectToRoute('post_index');
+            return $this->redirectToRoute('main_page');
         }
 
         return $this->render('post/new.html.twig', [
@@ -50,14 +52,30 @@ class PostController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="post_show", methods={"GET"})
+     * @Route("/{id}", name="post_show", methods={"GET", "POST"})
      */
-    public function show(Post $post, UserRepository $userRepository): Response
-    {
-        $post->username = $userRepository->findUsernameById($post->getUserId());
-        return $this->render('post/show.html.twig', [
+    public function show
+    (
+        Post $post,
+        CommentRepository $commentRepository,
+        Request $request
+    ): Response {
+        $comments = $commentRepository->findBy(['post_id' => $post->getId()]);
+
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($comment);
+            $entityManager->flush();
+        }
+            return $this->render('post/show.html.twig', [
             'post' => $post,
-        ]);
+            'comments' => $comments,
+            'form' => $form->createView(),
+            ]);
     }
 
     /**
@@ -71,7 +89,7 @@ class PostController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('post_index');
+            return $this->redirectToRoute('main_page');
         }
 
         return $this->render('post/edit.html.twig', [
@@ -91,6 +109,6 @@ class PostController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('post_index');
+        return $this->redirectToRoute('main_page');
     }
 }
