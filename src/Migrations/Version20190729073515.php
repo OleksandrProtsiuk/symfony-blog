@@ -12,15 +12,15 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20190729073515 extends AbstractMigration
 {
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return '';
     }
 
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE reaction DROP FOREIGN KEY FK_A4D707F79D86650F');
         $this->addSql('ALTER TABLE reaction DROP FOREIGN KEY FK_A4D707F7E85F12B8');
@@ -47,10 +47,10 @@ final class Version20190729073515 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_9474526C9D86650F ON comment (user_id_id)');
     }
 
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE comment DROP FOREIGN KEY FK_9474526C9D86650F');
         $this->addSql('ALTER TABLE comment DROP FOREIGN KEY FK_9474526CE85F12B8');

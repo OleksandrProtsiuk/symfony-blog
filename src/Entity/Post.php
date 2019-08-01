@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -87,13 +86,13 @@ class Post
 
     public function getBodyTruncated($limit): ?string
     {
-        $break = ".";
-        $pad = "...";
+        $break = '.';
+        $pad = '...';
         $string = $this->body;
         if (strlen($string) <= $limit) return $string;
         if (false !== ($max = strpos($string, $break, $limit))) {
             if ($max < strlen($string) - 1) {
-                $string = substr($string, 0, $max) . $pad;
+                $string = substr($string, 0, $max).$pad;
             }
         }
         return $string;
@@ -156,10 +155,10 @@ class Post
     {
         $result = 0;
         $reactions = $this->reactions;
-        if($optional != NULL) {
+        if(NULL !== $optional) {
             foreach($reactions as $reaction) {
                 if($reaction->getLegend() === $optional) {
-                    $result += 1;
+                    ++$result;
                 }
             }
             return $result;

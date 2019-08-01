@@ -62,7 +62,7 @@ class Reaction
     public function setLegend(string $legend): self
     {
         if (!in_array($legend, [self::VERY_BAD, self::BAD, self::LIKE, self::GOOD, self::VERY_GOOD])) {
-            throw new \InvalidArgumentException("Invalid legend");
+            throw new \InvalidArgumentException('Invalid legend');
         }
         $this->legend = $legend;
 

@@ -17,7 +17,7 @@ class CommentType extends AbstractType
                 'config' => [
                     'uiColor' => '#e2e2e2',
                     'required' => true,
-                ]
+                ],
             ])
             ->add('user_id')
            // ->add('post_id')

@@ -13,7 +13,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @UniqueEntity("name")
  * @UniqueEntity("login")
  */
-
 class User
 {
     /**
@@ -124,7 +123,7 @@ class User
     public function setRole(string $role): self
     {
         if (!in_array($role, [self::ROLE_ADMIN, self::ROLE_USER])) {
-            throw new \InvalidArgumentException("Invalid role");
+            throw new \InvalidArgumentException('Invalid role');
         }
         $this->role = $role;
 

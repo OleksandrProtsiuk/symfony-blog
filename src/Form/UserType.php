@@ -20,17 +20,17 @@ class UserType extends AbstractType
             ->add('name', TextType::class, ['required' => true,
                 //'constraints' => [new Length(['min' => 3,])],
                 'label' => false,
-                'attr' => [ 'placeholder' => 'Username', 'style']
+                'attr' => ['placeholder' => 'Username', 'style'],
                 ])
             ->add('login', TextType::class, ['required' => true,
                 //'constraints' => [new Length(['min' => 3])],
                 'label' => false,
-                'attr' => [ 'placeholder' => 'Login',]
+                'attr' => ['placeholder' => 'Login'],
                 ])
             ->add('password', PasswordType::class, ['required' => true,
                 //'constraints' => [new Length(['min' => 8])],
                 'label' => false,
-                'attr' => [ 'placeholder' => 'Password',]
+                'attr' => ['placeholder' => 'Password'],
                 ])
             //->add('role', HiddenType::class, ['data' => 'user', 'label' => false,])
         ;
