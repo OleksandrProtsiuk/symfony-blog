@@ -1,0 +1,10 @@
+
+<button type="button" class="btn btn-link" data-toggle="collapse" data-target="#mind" aria-expanded="false" aria-controls="collapseExample">
+    <b>What`s your mind?</b>
+</button>
+
+<div class="collapse" id="mind">
+    <div class="card card-body">
+        {{ include('reaction/_form.html.twig', {'button_label': 'Vote'}) }}
+    </div>
+</div>

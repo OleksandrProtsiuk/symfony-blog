@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Reaction;
 use App\Form\ReactionType;
+use App\Repository\PostRepository;
 use App\Repository\ReactionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,25 +27,26 @@ class ReactionController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="reaction_new", methods={"GET","POST"})
+     * @Route("/new/{post_id}", name="reaction_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, $post_id, PostRepository $postRepository): Response
     {
         $reaction = new Reaction();
-        $form = $this->createForm(ReactionType::class, $reaction);
-        $form->handleRequest($request);
+        $reaction->setPostId($postRepository->find($post_id));
+        $reaction_form = $this->createForm(ReactionType::class, $reaction);
+        $reaction_form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($reaction_form->isSubmitted() && $reaction_form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($reaction);
             $entityManager->flush();
 
-            return $this->redirectToRoute('reaction_index');
+            return $this->redirectToRoute('post_show', ['id' => $post_id]);
         }
 
         return $this->render('reaction/new.html.twig', [
             'reaction' => $reaction,
-            'form' => $form->createView(),
+            'reaction_form' => $reaction_form->createView(),
         ]);
     }
 

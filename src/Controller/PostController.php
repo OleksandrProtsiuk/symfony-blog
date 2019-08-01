@@ -4,8 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Comment;
 use App\Entity\Post;
+use App\Entity\Reaction;
 use App\Form\CommentType;
 use App\Form\PostType;
+use App\Form\ReactionType;
 use App\Repository\CommentRepository;
 use App\Repository\PostRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -63,6 +65,8 @@ class PostController extends AbstractController
         $comments = $commentRepository->findBy(['post_id' => $post->getId()]);
 
         $comment = new Comment();
+        $reaction = new Reaction();
+
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
 
@@ -71,10 +75,26 @@ class PostController extends AbstractController
             $entityManager->persist($comment);
             $entityManager->flush();
         }
+
+        $reaction_form = $this->createForm(ReactionType::class, $reaction);
+        $reaction_form->handleRequest($request);
+
+        if ($reaction_form->isSubmitted() && $reaction_form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($reaction);
+            $entityManager->flush();
+        }
+        foreach( $post->getReactions() as $reaction) {
+            switch ($reaction->getLegend()) {
+                case 'very bad':
+                    //$very_bad += 1;
+            }
+        }
             return $this->render('post/show.html.twig', [
             'post' => $post,
             'comments' => $comments,
             'form' => $form->createView(),
+            'reaction_form' => $reaction_form->createView(),
             ]);
     }
 

@@ -152,9 +152,19 @@ class Post
     /**
      * @return Collection|Reaction[]
      */
-    public function getReactions(): Collection
+    public function getReactions($optional = NULL)
     {
-        return $this->reactions;
+        $result = 0;
+        $reactions = $this->reactions;
+        if($optional != NULL) {
+            foreach($reactions as $reaction) {
+                if($reaction->getLegend() === $optional) {
+                    $result += 1;
+                }
+            }
+            return $result;
+        }
+        return $reactions;
     }
 
     public function addReaction(Reaction $reaction): self
