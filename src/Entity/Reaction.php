@@ -24,10 +24,10 @@ class Reaction
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=120)
+     * @ORM\Column(type="string", columnDefinition="ENUM('very bad', 'bad', 'like', 'good', 'very good')")
      * @Assert\NotBlank()
      * @Assert\NotNull()
-     * @Assert\Length(min="3", max="120")
+     * @Assert\Length(min="2", max="120")
      */
     private $legend;
 
@@ -53,13 +53,15 @@ class Reaction
         return $this->legend;
     }
 
+    const VERY_BAD = 'very bad';
+    const BAD = 'bad';
     const LIKE = 'like';
-    const DISLIKE = 'dislike';
-    const DONT_CARE = 'dont care';
+    const GOOD = 'good';
+    const VERY_GOOD = 'very good';
 
     public function setLegend(string $legend): self
     {
-        if (!in_array($legend, [self::LIKE, self::DISLIKE, self::DONT_CARE])) {
+        if (!in_array($legend, [self::VERY_BAD, self::BAD, self::LIKE, self::GOOD, self::VERY_GOOD])) {
             throw new \InvalidArgumentException("Invalid legend");
         }
         $this->legend = $legend;
