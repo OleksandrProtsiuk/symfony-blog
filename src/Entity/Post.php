@@ -153,12 +153,12 @@ class Post
      */
     public function getReactions($optional = NULL)
     {
-        $result = 0;
+        $result = [];
         $reactions = $this->reactions;
         if(NULL !== $optional) {
             foreach($reactions as $reaction) {
                 if($reaction->getLegend() === $optional) {
-                    ++$result;
+                    array_push($result, $reaction);
                 }
             }
             return $result;
