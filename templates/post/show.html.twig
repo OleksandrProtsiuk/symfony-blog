@@ -70,9 +70,7 @@
                     </tr>
                     </tbody>
                 </table>
-                 <p><b>Total votes: </b> {{ post.getReactions('very bad')|length + post.getReactions('bad')|length
-                     + post.getReactions('like')|length + post.getReactions('good')|length
-                     + post.getReactions('very good')|length }} </p>
+                 <p><b>Total votes: </b> {{ post.getReactions()|length }} </p>
                 {% else %}
                     <i>No reactions yet...</i>
                 {% endif %}

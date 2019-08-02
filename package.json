@@ -29,7 +29,8 @@
     "gulp-sourcemaps": "^2.6.5",
     "gulp-uglify": "^3.0.2",
     "imagemin-jpeg-recompress": "^6.0.0",
-    "imagemin-pngquant": "^8.0.0"
+    "imagemin-pngquant": "^8.0.0",
+    "select2": "^4.0.8"
   },
   "dependencies": {
     "bootstrap": "^4.3.1",

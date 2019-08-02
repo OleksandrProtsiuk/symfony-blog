@@ -13,7 +13,7 @@ class TagType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('post_id')
+            //->add('post_id')
         ;
     }
 

@@ -33,6 +33,7 @@ class TagController extends AbstractController
         $tag = new Tag();
         $form = $this->createForm(TagType::class, $tag);
         $form->handleRequest($request);
+        //$tag->setName('#'.$tag->getName());
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
@@ -57,7 +58,6 @@ class TagController extends AbstractController
             'tag' => $tag,
         ]);
     }
-
     /**
      * @Route("/{id}/edit", name="tag_edit", methods={"GET","POST"})
      */
@@ -90,5 +90,30 @@ class TagController extends AbstractController
         }
 
         return $this->redirectToRoute('tag_index');
+    }
+
+    /*----------Actions For AutoComplete-------------*/
+
+    /**
+     * @Route("/tags/search", name="tag_search", methods={"GET", "POST"})
+     */
+    public function search(TagRepository $tagRepository): Response
+    {
+        $result = [];
+        foreach ($tagRepository->findAll() as $tag) {
+            array_push($result, $tag);
+        }
+        return $this->render('tag/tags.json.twig', [
+            'results' => $result,
+        ]);
+    }
+
+    /**
+     * @Route("/get/{id}", name="tag_get", methods={"GET", "POST"})
+     */
+    public function getTag(TagRepository $tagRepository, $id = NULL): Response
+    {
+        $tag = $tagRepository->find($id);
+        return $this->json($tag->getName());
     }
 }

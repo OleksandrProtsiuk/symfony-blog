@@ -1,0 +1,3 @@
+[{% for res in results -%}
+    {{ {label: res.name, value: res.id}|json_encode|raw }}
+{%- endfor %}]
