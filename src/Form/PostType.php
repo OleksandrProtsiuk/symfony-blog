@@ -30,7 +30,6 @@ class PostType extends AbstractType
                 'expanded' => false,
                 'multiple' => true,
             ])
-            //->add('tags', AutocompleteType::class, ['class' => Tag::class])
         ;
     }
 

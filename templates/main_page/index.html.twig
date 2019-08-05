@@ -5,7 +5,9 @@
 {% block body %}
 <div class="container">
 
-    {% for post in posts %}
+    <div class="pagerfanta">
+
+    {% for post in pager.currentPageResults %}
         <hr>
         <h3><a href="{{ path('post_show', {'id': post.id}) }}">{{ post.title }}</a></h3>
         <small><b>Created by:</b><a href="{{ path('user_show', {'id': post.getUserId}) }}">{{ post.getUserId.name }}</a></small>
@@ -23,5 +25,7 @@
     {% else %}
             <p class="alert-info">no records found</p>
     {% endfor %}
+    {{ pagerfanta(pager, 'twitter_bootstrap4', { 'omitFirstPage': true}) }}
+</div>
 </div>
 {% endblock %}

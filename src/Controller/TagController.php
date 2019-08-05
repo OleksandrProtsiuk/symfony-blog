@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Post;
 use App\Entity\Tag;
 use App\Form\TagType;
 use App\Repository\PostRepository;
