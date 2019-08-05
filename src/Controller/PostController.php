@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/post")
+ * @Route("/posts")
  */
 class PostController extends AbstractController
 {
@@ -114,7 +114,6 @@ class PostController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             foreach ($post->getTags() as $t) {
                 $t->addPostId($post);
                 $entityManager = $this->getDoctrine()->getManager();

@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/tag")
+ * @Route("/tags")
  */
 class TagController extends AbstractController
 {
@@ -65,6 +65,7 @@ class TagController extends AbstractController
             'posts' => $posts,
         ]);
     }
+
     /**
      * @Route("/{id}/edit", name="tag_edit", methods={"GET","POST"})
      */
