@@ -44,6 +44,12 @@ class PostController extends AbstractController
             $entityManager->persist($post);
             $entityManager->flush();
 
+            foreach ($post->getTags() as $t) {
+                $t->addPostId($post);
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($t);
+                $entityManager->flush();
+            }
             return $this->redirectToRoute('main_page');
         }
 
@@ -103,12 +109,24 @@ class PostController extends AbstractController
      */
     public function edit(Request $request, Post $post): Response
     {
+        $entityManager = $this->getDoctrine()->getManager();
+        foreach ($post->getTags() as $t) {
+            $entityManager->persist($t->removePostId($post));
+        }
+        $entityManager->flush();
+
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
 
+            foreach ($post->getTags() as $t) {
+                $t->addPostId($post);
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($t);
+                $entityManager->flush();
+            }
+            $this->getDoctrine()->getManager()->flush();
             return $this->redirectToRoute('main_page');
         }
 

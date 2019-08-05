@@ -3,10 +3,10 @@
 namespace App\Form;
 
 use App\Entity\Post;
+use App\Entity\Tag;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -24,14 +24,12 @@ class PostType extends AbstractType
                 ],
             ])
             ->add('user_id')
-            /*->add('tags', ChoiceType::class, [
-                'choices' => [
-                    'a' => 'A',
-                    'b' => 'B',
-                ],
+            ->add('tags', EntityType::class, [
+                'class' => Tag::class,
+                'choice_label' => 'name',
                 'expanded' => false,
                 'multiple' => true,
-            ])*/
+            ])
             //->add('tags', AutocompleteType::class, ['class' => Tag::class])
         ;
     }

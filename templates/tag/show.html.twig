@@ -15,6 +15,13 @@
                 <th>Name</th>
                 <td>{{ tag.name }}</td>
             </tr>
+            <tr>
+                <th>Posts</th>
+                <td>
+                    {% for tag in tag.postId %}
+                    [{{ tag }}],
+                {% endfor %}</td>
+            </tr>
         </tbody>
     </table>
 
