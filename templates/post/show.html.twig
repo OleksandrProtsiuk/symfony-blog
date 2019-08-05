@@ -91,6 +91,7 @@
                         <small><b>User: </b>{{ comment.getUserId.name }}</small>
                         {{ include('post/_comment_toolbar.html.twig') }}
                     </p>
+                    <a href="#{{ comment.id }}"  hidden>¶</a>
                     {{ comment.body | raw }}
                     <hr>
                 {% else %}

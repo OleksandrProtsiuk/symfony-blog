@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Post;
 use App\Entity\Tag;
 use App\Form\TagType;
+use App\Repository\PostRepository;
 use App\Repository\TagRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -52,10 +54,15 @@ class TagController extends AbstractController
     /**
      * @Route("/{id}", name="tag_show", methods={"GET"})
      */
-    public function show(Tag $tag): Response
+    public function show(Tag $tag, PostRepository $postRepository): Response
     {
+        foreach($tag->getPostId() as $id){
+            $posts[] = $postRepository->find($id->getId());
+        }
+
         return $this->render('tag/show.html.twig', [
             'tag' => $tag,
+            'posts' => $posts,
         ]);
     }
     /**

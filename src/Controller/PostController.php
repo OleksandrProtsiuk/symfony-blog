@@ -90,12 +90,7 @@ class PostController extends AbstractController
             $entityManager->persist($reaction);
             $entityManager->flush();
         }
-        foreach( $post->getReactions() as $reaction) {
-            switch ($reaction->getLegend()) {
-                case 'very bad':
-                    //$very_bad += 1;
-            }
-        }
+
             return $this->render('post/show.html.twig', [
             'post' => $post,
             'comments' => $comments,
