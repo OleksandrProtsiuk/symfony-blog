@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Reaction;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -47,4 +48,32 @@ class ReactionRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function countPostReactionsByLegend($legendName, $post_id) {
+        try {
+            return $this->createQueryBuilder('r')
+                ->select('count(r.id)')
+                ->Where('r.legend = :val')
+                ->andWhere('r.post_id = :val2')
+                ->setParameter('val', $legendName)
+                ->setParameter('val2', $post_id)
+                ->getQuery()
+                ->getSingleScalarResult();
+        } catch (NonUniqueResultException $e) {
+            return $e;
+        }
+    }
+
+    public function countPostReactionsById($post_id) {
+        try {
+            return $this->createQueryBuilder('r')
+                ->select('count(r.id)')
+                ->andWhere('r.post_id = :val')
+                ->setParameter('val', $post_id)
+                ->getQuery()
+                ->getSingleScalarResult();
+        } catch (NonUniqueResultException $e) {
+            return $e;
+        }
+    }
 }

@@ -10,6 +10,7 @@ use App\Form\PostType;
 use App\Form\ReactionType;
 use App\Repository\CommentRepository;
 use App\Repository\PostRepository;
+use App\Repository\ReactionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -66,7 +67,8 @@ class PostController extends AbstractController
     (
         Post $post,
         CommentRepository $commentRepository,
-        Request $request
+        Request $request,
+        ReactionRepository $reactionRepository
     ): Response {
         $comments = $commentRepository->findBy(['post_id' => $post->getId()]);
 
@@ -94,6 +96,7 @@ class PostController extends AbstractController
             return $this->render('post/show.html.twig', [
             'post' => $post,
             'comments' => $comments,
+            'repository' => $reactionRepository,
             'form' => $form->createView(),
             'reaction_form' => $reaction_form->createView(),
             ]);

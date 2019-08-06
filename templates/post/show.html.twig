@@ -62,15 +62,15 @@
                     </thead>
                     <tbody>
                     <tr>
-                        <td>{{ post.getReactions('very bad')|length }}</td>
-                        <td>{{ post.getReactions('bad')|length }}</td>
-                        <td>{{ post.getReactions('like')|length }}</td>
-                        <td>{{ post.getReactions('good')|length }}</td>
-                        <td>{{ post.getReactions('very good')|length }}</td>
+                        <td>{{ reactions(post.id, repository, 'very bad') }}</td>
+                        <td>{{ reactions(post.id, repository, 'bad') }}</td>
+                        <td>{{ reactions(post.id, repository, 'like') }}</td>
+                        <td>{{ reactions(post.id, repository, 'good') }}</td>
+                        <td>{{ reactions(post.id, repository, 'very good') }}</td>
                     </tr>
                     </tbody>
                 </table>
-                 <p><b>Total votes: </b> {{ post.getReactions()|length }} </p>
+                 <p><b>Total votes: </b> {{ reactions(post.id, repository) }} </p>
                 {% else %}
                     <i>No reactions yet...</i>
                 {% endif %}
