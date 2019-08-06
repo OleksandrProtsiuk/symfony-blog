@@ -50,17 +50,17 @@ class User
     private $role;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Post", mappedBy="user_id", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Post", mappedBy="user", orphanRemoval=true)
      */
     private $posts;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="user_id", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="user", orphanRemoval=true)
      */
     private $comments;
 
     /**
-     * @ORM\OneToMany(targetEntity="Reaction", mappedBy="user_id", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="Reaction", mappedBy="user", orphanRemoval=true)
      */
     private $reactions;
 
@@ -142,7 +142,7 @@ class User
     {
         if (!$this->posts->contains($post)) {
             $this->posts[] = $post;
-            $post->setUserId($this);
+            $post->setUser($this);
         }
 
         return $this;
@@ -153,8 +153,8 @@ class User
         if ($this->posts->contains($post)) {
             $this->posts->removeElement($post);
             // set the owning side to null (unless already changed)
-            if ($post->getUserId() === $this) {
-                $post->setUserId(null);
+            if ($post->getUser() === $this) {
+                $post->setUser(null);
             }
         }
 

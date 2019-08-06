@@ -38,20 +38,20 @@ class Post
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="posts")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user_id;
+    private $user;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="post_id", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="post", orphanRemoval=true)
      */
     private $comments;
 
     /**
-     * @ORM\OneToMany(targetEntity="Reaction", mappedBy="post_id", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="Reaction", mappedBy="post", orphanRemoval=true)
      */
     private $reactions;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Tag", mappedBy="post_id")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Tag", mappedBy="post")
      */
     private $tags;
 
@@ -101,18 +101,6 @@ class Post
     public function setBody(string $body): self
     {
         $this->body = $body;
-
-        return $this;
-    }
-
-    public function getUserId(): ?User
-    {
-        return $this->user_id;
-    }
-
-    public function setUserId(?User $user_id): self
-    {
-        $this->user_id = $user_id;
 
         return $this;
     }
@@ -220,5 +208,17 @@ class Post
     public function __toString()
     {
         return $this->id.'';
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
     }
 }

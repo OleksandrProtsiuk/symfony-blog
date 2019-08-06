@@ -2,7 +2,7 @@
 
     {{ form_start(form, {'action': path('comment_new', {'post_id': post.id }), 'method': 'POST'}) }}
     {{ form_row(form.body) }}
-    {{ form_row(form.user_id) }}
+    {{ form_row(form.user) }}
 
     <button class="btn btn-dark btn-block">{{ button_label|default('Save') }}</button>
     {{ form_end(form) }}
@@ -11,7 +11,7 @@
 
     {{ form_start(form) }}
     {{ form_row(form.body) }}
-    {{ form_row(form.user_id) }}
+    {{ form_row(form.user) }}
 
     <button class="btn btn-dark btn-block">{{ button_label|default('Save') }}</button>
     {{ form_end(form) }}

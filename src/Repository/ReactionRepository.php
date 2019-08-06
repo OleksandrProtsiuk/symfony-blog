@@ -54,7 +54,7 @@ class ReactionRepository extends ServiceEntityRepository
             return $this->createQueryBuilder('r')
                 ->select('count(r.id)')
                 ->Where('r.legend = :val')
-                ->andWhere('r.post_id = :val2')
+                ->andWhere('r.post = :val2')
                 ->setParameter('val', $legendName)
                 ->setParameter('val2', $post_id)
                 ->getQuery()
@@ -68,7 +68,7 @@ class ReactionRepository extends ServiceEntityRepository
         try {
             return $this->createQueryBuilder('r')
                 ->select('count(r.id)')
-                ->andWhere('r.post_id = :val')
+                ->andWhere('r.post = :val')
                 ->setParameter('val', $post_id)
                 ->getQuery()
                 ->getSingleScalarResult();

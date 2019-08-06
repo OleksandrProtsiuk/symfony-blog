@@ -70,7 +70,7 @@ class PostController extends AbstractController
         Request $request,
         ReactionRepository $reactionRepository
     ): Response {
-        $comments = $commentRepository->findBy(['post_id' => $post->getId()]);
+        $comments = $commentRepository->findBy(['post' => $post->getId()]);
 
         $comment = new Comment();
         $reaction = new Reaction();

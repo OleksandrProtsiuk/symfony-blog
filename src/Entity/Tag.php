@@ -32,11 +32,11 @@ class Tag
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Post", inversedBy="tags")
      */
-    private $post_id;
+    private $post;
 
     public function __construct()
     {
-        $this->post_id = new ArrayCollection();
+        $this->post = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -61,13 +61,13 @@ class Tag
      */
     public function getPostId(): Collection
     {
-        return $this->post_id;
+        return $this->post;
     }
 
     public function addPostId(Post $postId): self
     {
-        if (!$this->post_id->contains($postId)) {
-            $this->post_id[] = $postId;
+        if (!$this->post->contains($postId)) {
+            $this->post[] = $postId;
         }
 
         return $this;
@@ -75,8 +75,8 @@ class Tag
 
     public function removePostId(Post $postId): self
     {
-        if ($this->post_id->contains($postId)) {
-            $this->post_id->removeElement($postId);
+        if ($this->post->contains($postId)) {
+            $this->post->removeElement($postId);
         }
 
         return $this;
@@ -85,5 +85,31 @@ class Tag
     public function __toString()
     {
         return $this->id.'';
+    }
+
+    /**
+     * @return Collection|Post[]
+     */
+    public function getPost(): Collection
+    {
+        return $this->post;
+    }
+
+    public function addPost(Post $post): self
+    {
+        if (!$this->post->contains($post)) {
+            $this->post[] = $post;
+        }
+
+        return $this;
+    }
+
+    public function removePost(Post $post): self
+    {
+        if ($this->post->contains($post)) {
+            $this->post->removeElement($post);
+        }
+
+        return $this;
     }
 }

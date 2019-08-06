@@ -8,9 +8,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ReactionRepository")
  * @UniqueEntity(
- *     fields={"post_id", "user_id"},
- *     errorPath="post_id",
- *     errorPath="user_id",
+ *     fields={"post", "user"},
+ *     errorPath="post",
+ *     errorPath="user",
  *     message="No more reactions for this post!"
  * )
  */
@@ -35,13 +35,13 @@ class Reaction
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="reactions")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user_id;
+    private $user;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Post", inversedBy="reactions")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $post_id;
+    private $post;
 
     public function getId(): ?int
     {
@@ -71,24 +71,48 @@ class Reaction
 
     public function getUserId(): ?User
     {
-        return $this->user_id;
+        return $this->user;
     }
 
     public function setUserId(?User $user_id): self
     {
-        $this->user_id = $user_id;
+        $this->user = $user_id;
 
         return $this;
     }
 
     public function getPostId(): ?Post
     {
-        return $this->post_id;
+        return $this->post;
     }
 
     public function setPostId(?Post $post_id): self
     {
-        $this->post_id = $post_id;
+        $this->post = $post_id;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getPost(): ?Post
+    {
+        return $this->post;
+    }
+
+    public function setPost(?Post $post): self
+    {
+        $this->post = $post;
 
         return $this;
     }

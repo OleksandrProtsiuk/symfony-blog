@@ -19,8 +19,7 @@ class CommentType extends AbstractType
                     'required' => true,
                 ],
             ])
-            ->add('user_id')
-           // ->add('post_id')
+            ->add('user')
         ;
     }
 
