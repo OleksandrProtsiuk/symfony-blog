@@ -47,4 +47,10 @@ class PostRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function pagination() {
+        return $this->createQueryBuilder('p')
+            ->select('p')
+            ->getQuery();
+    }
 }

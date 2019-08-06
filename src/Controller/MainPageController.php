@@ -15,10 +15,7 @@ class MainPageController extends AbstractController
      * @Route("/", name="main_page")
      */
     public function index(PostRepository $postRepository): Response {
-        $queryBuilder = $postRepository->createQueryBuilder('p')
-            ->select('p')
-            ->getQuery();
-        $adapter = new DoctrineORMAdapter($queryBuilder);
+        $adapter = new DoctrineORMAdapter($postRepository->pagination());
 
         $pager = new Pagerfanta($adapter);
         $pager->setMaxPerPage(3);
