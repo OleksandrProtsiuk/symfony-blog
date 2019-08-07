@@ -64,11 +64,17 @@ class User
      */
     private $reactions;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Media", mappedBy="user", orphanRemoval=true)
+     */
+    private $media;
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->reactions = new ArrayCollection();
+        $this->media = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -226,5 +232,36 @@ class User
     public function __toString()
     {
         return $this->id.'';
+    }
+
+    /**
+     * @return Collection|Media[]
+     */
+    public function getMedia(): Collection
+    {
+        return $this->media;
+    }
+
+    public function addMedium(Media $medium): self
+    {
+        if (!$this->media->contains($medium)) {
+            $this->media[] = $medium;
+            $medium->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMedium(Media $medium): self
+    {
+        if ($this->media->contains($medium)) {
+            $this->media->removeElement($medium);
+            // set the owning side to null (unless already changed)
+            if ($medium->getUser() === $this) {
+                $medium->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }
