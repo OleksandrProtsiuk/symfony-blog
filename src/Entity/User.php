@@ -69,6 +69,11 @@ class User
      */
     private $media;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Media", cascade={"persist", "remove"})
+     */
+    private $avatar;
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
@@ -261,6 +266,18 @@ class User
                 $medium->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAvatar(): ?Media
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(?Media $avatar): self
+    {
+        $this->avatar = $avatar;
 
         return $this;
     }

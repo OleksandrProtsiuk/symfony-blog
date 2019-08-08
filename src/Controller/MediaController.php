@@ -46,7 +46,11 @@ class MediaController extends AbstractController
             $entityManager->persist($medium);
             $entityManager->flush();
 
-            return $this->redirectToRoute('media_index');
+            return $this->render('media/new.html.twig', [
+                'medium' => $medium,
+                'form' => $form->createView(),
+                'notice' => 'Success',
+            ]);
         }
 
         return $this->render('media/new.html.twig', [
@@ -72,6 +76,7 @@ class MediaController extends AbstractController
     {
         $form = $this->createForm(MediaType::class, $medium);
         $form->handleRequest($request);
+        $id = $medium->getUser();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $file = $form['link']->getData();
@@ -83,7 +88,7 @@ class MediaController extends AbstractController
             $entityManager->flush();
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('media_index');
+            return $this->redirectToRoute('user_show', ['id' => $id]);
         }
 
         return $this->render('media/edit.html.twig', [
@@ -97,12 +102,13 @@ class MediaController extends AbstractController
      */
     public function delete(Request $request, Media $medium): Response
     {
+        $id = $medium->getUser();
         if ($this->isCsrfTokenValid('delete'.$medium->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($medium);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('media_index');
+        return $this->redirectToRoute('user_show', ['id' => $id]);
     }
 }

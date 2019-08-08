@@ -18,7 +18,7 @@ class MainPageController extends AbstractController
         $adapter = new DoctrineORMAdapter($postRepository->pagination());
 
         $pager = new Pagerfanta($adapter);
-        $pager->setMaxPerPage(1);
+        $pager->setMaxPerPage(3);
         if (isset($_GET['page'])) {
             $pager->setCurrentPage($_GET['page']);
         }
