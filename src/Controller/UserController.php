@@ -56,26 +56,20 @@ class UserController extends AbstractController
      */
     public function show(User $user, Request $request, MediaRepository $mediaRepository): Response
     {
-        if($user->getAvatar() == NULL) {
-            $form = $this->createForm(AvatarType::class, $user);
-            $form->handleRequest($request);
-            if ($form->isSubmitted() && $form->isValid()) {
-                $entityManager = $this->getDoctrine()->getManager();
-                $user->setAvatar($mediaRepository->find($form['avatar']->getData()));
-                $entityManager->persist($user);
-                $entityManager->flush();
+        $form = $this->createForm(AvatarType::class, $user);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $user->setAvatar($mediaRepository->find($form['avatar']->getData()));
+            $entityManager->persist($user);
+            $entityManager->flush();
 
-                return $this->redirectToRoute('user_show', ['id' => $user->getId()]);
-            }
-
-            return $this->render('user/show.html.twig', [
-                'user' => $user,
-                'form' => $form->createView(),
-            ]);
+            return $this->redirectToRoute('user_show', ['id' => $user->getId()]);
         }
 
         return $this->render('user/show.html.twig', [
             'user' => $user,
+            'form' => $form->createView(),
         ]);
     }
 

@@ -96,7 +96,7 @@
                             {% if comment.user.avatar is not empty %}
                                 <img src="{{ asset(comment.user.avatar.link | imagine_filter('description')) }}">
                             {% endif %}
-                            {{ comment.getUserId.name }}
+                            {{ comment.user.name }}
                         </small>
                         {{ include('post/_comment_toolbar.html.twig') }}
                     </p>

@@ -9,8 +9,18 @@
         {% if user.avatar != NULL  %}
             <img src="{{ asset(user.avatar.link | imagine_filter('avatar')) }}" alt="{{ user.name }}">
             <br>
-            <a href="{{ path('media_edit', {'id': user.avatar.id}) }}"
-               class="btn btn-sm btn-warning">Edit Avatar</a>
+            <button type="button" class="btn btn-link" data-toggle="collapse"
+                    data-target="#editAva" aria-expanded="false" aria-controls="collapseExample">
+                <b>Edit Avatar</b>
+            </button>
+
+            <div class="collapse" id="editAva">
+                <div class="card card-body">
+                    {% set var = {'user': user} %}
+                    {%  include 'user/_avatar_form.html.twig' with var %}
+                </div>
+            </div>
+
         {% else %}
             {% if user.media is empty %}
                 <p class="alert alert-info">
