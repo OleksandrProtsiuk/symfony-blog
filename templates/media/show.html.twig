@@ -12,8 +12,8 @@
                 <td>{{ medium.id }}</td>
             </tr>
             <tr>
-                <th>Link</th>
-                <td><img src="{{ asset(medium.link) }}"></td>
+                <th>Media</th>
+                <td><img src="{{ asset(medium.link) | imagine_filter('preview') }}"></td>
             </tr>
         </tbody>
     </table>

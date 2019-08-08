@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col">
         {% if user.avatar != NULL  %}
-            <img src="{{ asset(user.avatar.link) }}" alt="{{ user.name }}">
+            <img src="{{ asset(user.avatar.link | imagine_filter('avatar')) }}" alt="{{ user.name }}">
             <br>
             <a href="{{ path('media_edit', {'id': user.avatar.id}) }}"
                class="btn btn-sm btn-warning">Edit Avatar</a>
@@ -116,7 +116,7 @@
                                     <tbody>
                                         <tr>
                                             <td>
-                                                <img src="{{ asset(medium.link) }}" alt="{{ medium.id }}" height="80">
+                                                <img src="{{ asset(medium.link | imagine_filter('preview')) }}" alt="{{ medium.id }}">
                                             </td>
                                             <td>
                                                 <a href="{{ path('media_edit', {'id': medium.id}) }}"
