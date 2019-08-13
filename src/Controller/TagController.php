@@ -34,7 +34,6 @@ class TagController extends AbstractController
         $tag = new Tag();
         $form = $this->createForm(TagType::class, $tag);
         $form->handleRequest($request);
-        //$tag->setName('#'.$tag->getName());
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();

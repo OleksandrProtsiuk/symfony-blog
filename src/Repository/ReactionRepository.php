@@ -49,14 +49,14 @@ class ReactionRepository extends ServiceEntityRepository
     }
     */
 
-    public function countPostReactionsByLegend($legendName, $post_id) {
+    public function countPostReactionsByLegend($legendName, $postId) {
         try {
             return $this->createQueryBuilder('r')
                 ->select('count(r.id)')
                 ->Where('r.legend = :val')
                 ->andWhere('r.post = :val2')
                 ->setParameter('val', $legendName)
-                ->setParameter('val2', $post_id)
+                ->setParameter('val2', $postId)
                 ->getQuery()
                 ->getSingleScalarResult();
         } catch (NonUniqueResultException $e) {
@@ -64,12 +64,12 @@ class ReactionRepository extends ServiceEntityRepository
         }
     }
 
-    public function countPostReactionsById($post_id) {
+    public function countPostReactionsById($postId) {
         try {
             return $this->createQueryBuilder('r')
                 ->select('count(r.id)')
                 ->andWhere('r.post = :val')
-                ->setParameter('val', $post_id)
+                ->setParameter('val', $postId)
                 ->getQuery()
                 ->getSingleScalarResult();
         } catch (NonUniqueResultException $e) {

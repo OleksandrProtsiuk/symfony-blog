@@ -31,28 +31,30 @@ class SearchController extends AbstractController
     public function search(
         PostRepository $postRepository,
         CommentRepository $commentRepository,
-        Request $request): Response
-    {
+        Request $request
+    ): Response {
         $search = new Search();
         $form = $this->createForm(SearchPostType::class, $search);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $result = [];
-            foreach($postRepository->search($search->title) as $post) {
-                array_push($result, $post );
+            foreach ($postRepository->search($search->title) as $post) {
+                array_push($result, $post);
             }
-            if($search->comment){
+            if ($search->comment) {
                 foreach ($commentRepository->search($search->title) as $comment) {
-                    array_push($result, $comment->getPost() );
+                    array_push($result, $comment->getPost());
                 }
             }
 
-            return $this->render('search/result.html.twig', ['results' => $result]);
+            return $this->render('search/result.html.twig', [
+                'results' => $result,
+            ]);
         } else {
             return $this->render('search/result.html.twig', [
                 'errors' => $form->getErrors($form),
-                ]);
+            ]);
         }
     }
 }

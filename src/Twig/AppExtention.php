@@ -16,16 +16,12 @@ class AppExtention extends AbstractExtension
         ];
     }
 
-    public function calculateReactions(int $post_id, ReactionRepository $reactionRepository, string $legend = NUll)
+    public function calculateReactions(int $postId, ReactionRepository $reactionRepository, string $legend = NUll)
     {
         if(NULL !== $legend) {
-            return $reactionRepository->countPostReactionsByLegend($legend, $post_id);
+            return $reactionRepository->countPostReactionsByLegend($legend, $postId);
         } else {
-            return $reactionRepository->countPostReactionsById($post_id);
+            return $reactionRepository->countPostReactionsById($postId);
         }
-    }
-
-    public function searchForm()
-    {
     }
 }
