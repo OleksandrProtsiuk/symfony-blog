@@ -40,7 +40,7 @@ class SearchController extends AbstractController
        foreach($postRepository->search($search->title) as $post) {
             array_push($result, $post );
         }
-       if(true === $search->comment){
+       if($search->comment){
            foreach ($commentRepository->search($search->title) as $comment) {
                array_push($result, $comment->getPost() );
            }
