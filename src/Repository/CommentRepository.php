@@ -47,4 +47,13 @@ class CommentRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function search($request)
+    {
+        return $this->createQueryBuilder('c')
+            ->where('c.body LIKE :r')
+            ->setParameter('r', '%'.$request.'%')
+            ->getQuery()
+            ->getResult();
+    }
 }

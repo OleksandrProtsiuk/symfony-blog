@@ -48,9 +48,20 @@ class PostRepository extends ServiceEntityRepository
     }
     */
 
-    public function pagination() {
+    public function pagination()
+    {
         return $this->createQueryBuilder('p')
             ->select('p')
             ->getQuery();
+    }
+
+    public function search($request)
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.title LIKE :r')
+            ->orWhere('p.body LIKE :r')
+            ->setParameter('r', '%'.$request.'%')
+            ->getQuery()
+            ->getResult();
     }
 }

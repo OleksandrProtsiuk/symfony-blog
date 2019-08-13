@@ -20,7 +20,7 @@
 //= '../../node_modules/select2/dist/js/select2.js'
 
 
-$('#post_tags').autocompleter({
-    url_list: '/tag/tags/search',
-    url_get: '/tag/get/'
-});
+// $('#post_tags').autocompleter({
+//    url_list: '/tag/tags/search',
+//    url_get: '/tag/get/'
+// });

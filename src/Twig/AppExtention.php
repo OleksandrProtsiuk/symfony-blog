@@ -12,6 +12,7 @@ class AppExtention extends AbstractExtension
     {
         return [
             new TwigFunction('reactions', [$this, 'calculateReactions']),
+            new TwigFunction('searchForm'),
         ];
     }
 
@@ -22,5 +23,9 @@ class AppExtention extends AbstractExtension
         } else {
             return $reactionRepository->countPostReactionsById($post_id);
         }
+    }
+
+    public function searchForm()
+    {
     }
 }
