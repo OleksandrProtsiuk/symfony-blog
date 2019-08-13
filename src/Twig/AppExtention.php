@@ -12,13 +12,12 @@ class AppExtention extends AbstractExtension
     {
         return [
             new TwigFunction('reactions', [$this, 'calculateReactions']),
-            new TwigFunction('searchForm'),
         ];
     }
 
-    public function calculateReactions(int $postId, ReactionRepository $reactionRepository, string $legend = NUll)
+    public function calculateReactions(int $postId, ReactionRepository $reactionRepository, string $legend = null)
     {
-        if(NULL !== $legend) {
+        if (null !== $legend) {
             return $reactionRepository->countPostReactionsByLegend($legend, $postId);
         } else {
             return $reactionRepository->countPostReactionsById($postId);

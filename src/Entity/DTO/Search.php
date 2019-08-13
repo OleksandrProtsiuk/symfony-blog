@@ -25,5 +25,10 @@ class Search
     /**
      * @ORM\Column(type="boolean")
      */
+    public $body;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
     public $comment;
 }

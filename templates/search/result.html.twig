@@ -3,10 +3,10 @@
 {% block title %}Search{% endblock %}
 
 {% block body %}
+    <h3>Search results:</h3>
     <div class="container">
     {% if results is defined %}
         {% for post in results %}
-        <h3>Search results:</h3>
         <hr>
         <h3><a href="{{ path('post_show', {'id': post.id}) }}">{{ post.title }}</a></h3>
         <small><b>Created by: </b>

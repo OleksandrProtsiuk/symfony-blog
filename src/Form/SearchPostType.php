@@ -18,14 +18,28 @@ class SearchPostType extends AbstractType
                 'label' => false,
                 'required' => true,
             ])
-            ->add('comment', ChoiceType::class,
+            ->add(
+                'body',
+                ChoiceType::class,
+                ['choices' => [
+                    'search in post body' => true,
+                ],
+                    'expanded' => true,
+                    'multiple' => true,
+                    'required' => false,
+                    'label' => false, ]
+            )
+            ->add(
+                'comment',
+                ChoiceType::class,
                 ['choices' => [
                     'search in comments' => true,
                 ],
                 'expanded' => true,
                 'multiple' => true,
                 'required' => false,
-                'label' => false, ]);
+                'label' => false, ]
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver)

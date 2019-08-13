@@ -55,12 +55,20 @@ class PostRepository extends ServiceEntityRepository
             ->getQuery();
     }
 
-    public function search($request)
+    public function search($search)
     {
-        return $this->createQueryBuilder('p')
-            ->where('p.title LIKE :r')
-            ->orWhere('p.body LIKE :r')
-            ->setParameter('r', '%'.$request.'%')
+        $query = $this->createQueryBuilder('p')
+            ->where('p.title LIKE :s');
+
+        if ($search->body) {
+            $query->orWhere('p.body LIKE :s');
+        }
+        if ($search->comment) {
+            $query->leftJoin('p.comments', 'c')
+                ->orWhere('c.body LIKE :s');
+        }
+
+        return $query->setParameter('s', '%'.$search->title.'%')
             ->getQuery()
             ->getResult();
     }

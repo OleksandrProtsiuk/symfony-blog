@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\DTO\Search;
 use App\Form\SearchPostType;
-use App\Repository\CommentRepository;
 use App\Repository\PostRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,7 +29,6 @@ class SearchController extends AbstractController
      */
     public function search(
         PostRepository $postRepository,
-        CommentRepository $commentRepository,
         Request $request
     ): Response {
         $search = new Search();
@@ -38,18 +36,8 @@ class SearchController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $result = [];
-            foreach ($postRepository->search($search->title) as $post) {
-                array_push($result, $post);
-            }
-            if ($search->comment) {
-                foreach ($commentRepository->search($search->title) as $comment) {
-                    array_push($result, $comment->getPost());
-                }
-            }
-
             return $this->render('search/result.html.twig', [
-                'results' => $result,
+                'results' => $postRepository->search($search),
             ]);
         } else {
             return $this->render('search/result.html.twig', [
