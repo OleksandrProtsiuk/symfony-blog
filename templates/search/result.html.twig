@@ -4,9 +4,9 @@
 
 {% block body %}
     <div class="container">
-    <h3>Search results:</h3>
     {% if results is defined %}
         {% for post in results %}
+        <h3>Search results:</h3>
         <hr>
         <h3><a href="{{ path('post_show', {'id': post.id}) }}">{{ post.title }}</a></h3>
         <small><b>Created by: </b>
@@ -30,6 +30,16 @@
         <p class="alert-info">no records found</p>
     {% endfor %}
     {% else %}
-        <p>Sorry.. no results.. try again</p>
+        {% if errors is defined %}
+            {% for error in errors %}
+                <div class="alert alert-danger">
+                    {{ error.message }}
+                </div>
+            {% endfor %}
+        {% else %}
+        <div class="alert alert-info">
+            <p>Sorry.. no results.. try again</p>
+        </div>
+        {% endif %}
     {% endif %}
 {% endblock %}

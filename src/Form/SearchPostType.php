@@ -16,6 +16,7 @@ class SearchPostType extends AbstractType
         $builder
             ->add('title', SearchType::class, [
                 'label' => false,
+                'required' => true,
             ])
             ->add('comment', ChoiceType::class,
                 ['choices' => [
