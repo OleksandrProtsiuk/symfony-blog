@@ -1,0 +1,18 @@
+
+<a class="btn" data-toggle="collapse" data-target="#target{{ comment.id }}" aria-expanded="false" aria-controls="collapseExample">
+    <img src='{{ asset('build/img/edit.svg') }}' height="20"/>
+</a>
+
+
+<div class="collapse" id="target{{ comment.id }}">
+    <div class="card card-body">
+        <div class="row">
+            <div class="col">
+                <a href="{{ path('comment_edit', {'id': comment.id}) }}" class="btn btn-info btn-sm btn-block">Edit</a>
+            </div>
+            <div class="col">
+                {{ include('comment/_delete_form.html.twig') }}
+            </div>
+        </div>
+    </div>
+</div>

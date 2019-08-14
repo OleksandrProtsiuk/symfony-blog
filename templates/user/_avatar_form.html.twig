@@ -1,0 +1,18 @@
+
+{% form_theme form 'user/_select_avatar_field.html.twig' %}
+
+{%  block content %}
+    <div class="col">
+        <small>
+            <b>
+                Select avatar from exist media or
+                <a href="{{ path('media_new') }}" class="btn btn-sm btn-success">Upload new</a>
+            </b>
+        </small>
+        <hr>
+    {{ form_start(form) }}
+        {{ form_widget(form.avatar, { 'var': var }) }}
+    <button class="btn btn-info">{{ button_label|default('Select Avatar') }}</button>
+    {{ form_end(form) }}
+    </div>
+{% endblock %}

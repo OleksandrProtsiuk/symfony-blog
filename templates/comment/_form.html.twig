@@ -1,0 +1,19 @@
+{%  if post is defined and post is not empty %}
+
+    {{ form_start(form, {'action': path('comment_new', {'post_id': post.id }), 'method': 'POST'}) }}
+    {{ form_row(form.body) }}
+    {{ form_row(form.user) }}
+
+    <button class="btn btn-dark btn-block">{{ button_label|default('Save') }}</button>
+    {{ form_end(form) }}
+
+{% else %}
+
+    {{ form_start(form) }}
+    {{ form_row(form.body) }}
+    {{ form_row(form.user) }}
+
+    <button class="btn btn-dark btn-block">{{ button_label|default('Save') }}</button>
+    {{ form_end(form) }}
+
+{%  endif %}

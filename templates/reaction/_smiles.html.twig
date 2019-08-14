@@ -1,0 +1,36 @@
+{% block _reaction_legend_widget %}
+    <fieldset class="form-group"  align="center">
+        <legend class="col-form-label required">Select smile</legend>
+        <div id="reaction_legend">
+            <div class="form-check">
+                <label>
+                    <input type="radio" id="reaction_legend_0" name="reaction[legend]"
+                           required="required" class="form-check-input radio" value="very bad" />
+                    <img src="{{ asset('/build/img/veryBad.png') }}" height="40" alt="very bad">
+                </label>
+
+                <label>
+                    <input type="radio" id="reaction_legend_1" name="reaction[legend]"
+                           required="required" class="form-check-input radio" value="bad" />
+                    <img src="{{ asset('/build/img/bad.png') }}" height="40" alt="bad">
+                </label>
+
+                <label>
+                    <input type="radio" id="reaction_legend_2" name="reaction[legend]"
+                           required="required" class="form-check-input radio" value="like" />
+                    <img src="{{ asset('/build/img/like.png') }}" height="40" alt="like">
+                </label>
+                <label>
+                    <input type="radio" id="reaction_legend_3" name="reaction[legend]"
+                           required="required" class="form-check-input radio" value="good" />
+                    <img src="{{ asset('/build/img/good.png') }}" height="40" alt="good">
+                </label>
+                <label>
+                    <input type="radio" id="reaction_legend_4" name="reaction[legend]"
+                           required="required" class="form-check-input radio" value="very good" />
+                    <img src="{{ asset('/build/img/veryGood.png') }}" height="40" alt="very good">
+                </label>
+            </div>
+        </div>
+    </fieldset>
+{% endblock %}

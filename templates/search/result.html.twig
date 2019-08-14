@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Search{% endblock %}
+
+{% block body %}
+    <h3>Search results:</h3>
+    <div class="container">
+    {% if results is defined %}
+        {% for post in results %}
+        <hr>
+        <h3><a href="{{ path('post_show', {'id': post.id}) }}">{{ post.title }}</a></h3>
+        <small><b>Created by: </b>
+            {% if post.user.avatar is not empty %}
+                <img src="{{ asset(post.user.avatar.link | imagine_filter('description')) }}">
+            {% endif %}
+            <a href="{{ path('user_show', {'id': post.user}) }}">{{ post.user.name }}</a>
+        </small>
+        <small><b>Tags:</b>
+            {% if post.tags is defined and post.tags is not empty %}
+                {% for tag in post.tags %}
+                    <a href="{{ path('tag_show', {'id': tag.id}) }}">{{ tag.name }}</a>
+                {% endfor %}
+            {% else %}
+                <i>NoTagsAdded</i>
+            {% endif %}
+        </small>
+        <br/>
+        <div>{{ post.getBodyTruncated(120) | raw }}</div>
+    {% else %}
+        <p class="alert-info">no records found</p>
+    {% endfor %}
+    {% else %}
+        {% if errors is defined %}
+            {% for error in errors %}
+                <div class="alert alert-danger">
+                    {{ error.message }}
+                </div>
+            {% endfor %}
+        {% else %}
+        <div class="alert alert-info">
+            <p>Sorry.. no results.. try again</p>
+        </div>
+        {% endif %}
+    {% endif %}
+{% endblock %}

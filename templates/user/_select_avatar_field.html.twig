@@ -1,0 +1,17 @@
+{% block _avatar_avatar_widget %}
+    <div class="col">
+            <fieldset class="form-group">
+                <div id="avatar_avatar">
+                    <div class="form-check">
+                        {% for img in var['user'].media %}
+                            <label>
+                                <input type="radio" id="avatar_avatar_{{ img.id }}" name="avatar[avatar]"
+                                   required="required" class="form-check-input radio" value="{{ img.id }}" />
+                                <img src="{{ asset(img.fileName | imagine_filter('form_preview')) }}" alt="{{ img.fileName }}">
+                            </label>
+                        {% endfor %}
+                    </div>
+                </div>
+            </fieldset>
+    </div>
+{% endblock %}

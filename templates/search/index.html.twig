@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello SearchController!{% endblock %}
+
+{% block body %}
+
+    {{ include('search/_form.html.twig') }}
+
+    {%  if results is defined %}
+        {{ results }}
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,8 @@
+
+{{ form_start(search_form, {'action': path('search')}) }}
+{{ form_row(search_form.title) }}
+{{ form_row(search_form.body) }}
+{{ form_row(search_form.comment) }}
+<button type="submit" class="btn btn-sm btn-success btn-block">Search</button>
+{{ form_end(search_form) }}
+

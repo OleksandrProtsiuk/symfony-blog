@@ -1,0 +1,32 @@
+@import "./node_modules/bootstrap/scss/bootstrap";
+@import "./node_modules/select2/dist/css/select2.css";
+
+html,
+body {
+  height: 100%;
+}
+
+#page-content {
+  flex: 1 0 auto;
+}
+
+#sticky-footer {
+  flex-shrink: none;
+}
+
+/* HIDE RADIO */
+.radio {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.radio + img {
+  cursor: pointer;
+}
+
+/* CHECKED STYLES */
+.radio:checked + img {
+  outline: 2px solid #2e9ad0;
+}
