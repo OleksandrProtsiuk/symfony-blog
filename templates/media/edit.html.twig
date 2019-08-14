@@ -4,7 +4,7 @@
 
 {% block body %}
     <h1>Edit Media</h1>
-    <img src="{{ asset(medium.link) | imagine_filter('preview') }}" >
+    <img src="{{ asset(medium.fileName) | imagine_filter('preview') }}" >
 
     {{ include('media/_form.html.twig', {'button_label': 'Update'}) }}
 

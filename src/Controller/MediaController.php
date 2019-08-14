@@ -36,11 +36,10 @@ class MediaController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $file = $form['link']->getData();
-            $fileName = $uploader->upload($file);
+            $fileName = $uploader->upload($medium->getFile());
 
             $entityManager = $this->getDoctrine()->getManager();
-            $medium->setLink($fileName);
+            $medium->setFileName($fileName);
             $entityManager->persist($medium);
             $entityManager->flush();
 
@@ -77,11 +76,10 @@ class MediaController extends AbstractController
         $id = $medium->getUser();
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $file = $form['link']->getData();
-            $fileName = $uploader->upload($file);
+            $fileName = $uploader->upload($medium->getFile());
 
             $entityManager = $this->getDoctrine()->getManager();
-            $medium->setLink($fileName);
+            $medium->setFileName($fileName);
             $entityManager->persist($medium);
             $entityManager->flush();
             $this->getDoctrine()->getManager()->flush();

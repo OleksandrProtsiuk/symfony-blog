@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col">
         {% if user.avatar != NULL  %}
-            <img src="{{ asset(user.avatar.link | imagine_filter('avatar')) }}" alt="{{ user.name }}">
+            <img src="{{ asset(user.avatar.fileName | imagine_filter('avatar')) }}" alt="{{ user.name }}">
             <br>
             <button type="button" class="btn btn-link" data-toggle="collapse"
                     data-target="#editAva" aria-expanded="false" aria-controls="collapseExample">
@@ -126,7 +126,7 @@
                                     <tbody>
                                         <tr>
                                             <td>
-                                                <img src="{{ asset(medium.link | imagine_filter('preview')) }}" alt="{{ medium.id }}">
+                                                <img src="{{ asset(medium.fileName | imagine_filter('preview')) }}" alt="{{ medium.id }}">
                                             </td>
                                             <td>
                                                 <a href="{{ path('media_edit', {'id': medium.id}) }}"

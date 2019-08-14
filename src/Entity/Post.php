@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PostRepository")
  */
@@ -89,7 +90,9 @@ class Post
         $break = '.';
         $pad = '...';
         $string = $this->body;
-        if (strlen($string) <= $limit) return $string;
+        if (strlen($string) <= $limit) {
+            return $string;
+        }
         if (false !== ($max = strpos($string, $break, $limit))) {
             if ($max < strlen($string) - 1) {
                 $string = substr($string, 0, $max).$pad;
@@ -139,13 +142,13 @@ class Post
     /**
      * @return Collection|Reaction[]
      */
-    public function getReactions($optional = NULL)
+    public function getReactions($optional = null)
     {
         $result = [];
         $reactions = $this->reactions;
-        if(NULL !== $optional) {
-            foreach($reactions as $reaction) {
-                if($reaction->getLegend() === $optional) {
+        if (null !== $optional) {
+            foreach ($reactions as $reaction) {
+                if ($reaction->getLegend() === $optional) {
                     array_push($result, $reaction);
                 }
             }

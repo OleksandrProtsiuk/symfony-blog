@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\MediaRepository")
@@ -17,9 +18,15 @@ class Media
     private $id;
 
     /**
+     * @Assert\File(maxSize="4m")
+     * @Assert\Image(maxHeight="300", maxWidth="300", allowLandscape="false"))
+     */
+    private $file;
+
+    /**
      * @ORM\Column(type="string", length=2000)
      */
-    private $link;
+    private $fileName;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="media")
@@ -32,16 +39,36 @@ class Media
         return $this->id;
     }
 
-    public function getLink(): ?string
+    /**
+     * @return mixed
+     */
+    public function getFile()
     {
-        return $this->link;
+        return $this->file;
     }
 
-    public function setLink(string $link): self
+    /**
+     * @param mixed $file
+     */
+    public function setFile($file): void
     {
-        $this->link = $link;
+        $this->file = $file;
+    }
 
-        return $this;
+    /**
+     * @return mixed
+     */
+    public function getFileName()
+    {
+        return $this->fileName;
+    }
+
+    /**
+     * @param mixed $fileName
+     */
+    public function setFileName($fileName): void
+    {
+        $this->fileName = $fileName;
     }
 
     public function getUser(): ?User

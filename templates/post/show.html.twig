@@ -30,7 +30,7 @@
         <br/>
     <small><b>Created by:
             {% if post.user.avatar is not empty %}
-                <img src="{{ asset(post.user.avatar.link | imagine_filter('description')) }}">
+                <img src="{{ asset(post.user.avatar.fileName | imagine_filter('description')) }}">
             {% endif %}
         </b><a href="{{ path('user_show', {'id': post.user}) }}">{{ post.user.name }}</a></small>
     <small><b>Tags:</b>
@@ -94,7 +94,7 @@
                     <p>
                         <small><b>User: </b>
                             {% if comment.user.avatar is not empty %}
-                                <img src="{{ asset(comment.user.avatar.link | imagine_filter('description')) }}">
+                                <img src="{{ asset(comment.user.avatar.fileName | imagine_filter('description')) }}">
                             {% endif %}
                             {{ comment.user.name }}
                         </small>

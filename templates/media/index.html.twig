@@ -16,7 +16,7 @@
         {% for medium in media %}
             <tr>
                 <td>{{ medium.id }}</td>
-                <td><img src="{{ asset(medium.link) | imagine_filter('preview') }}" alt="{{ medium.id }}"></td>
+                <td><img src="{{ asset(medium.fileName) | imagine_filter('preview') }}" alt="{{ medium.id }}"></td>
                 <td>
                     <a href="{{ path('media_show', {'id': medium.id}) }}">show</a>
                     <a href="{{ path('media_edit', {'id': medium.id}) }}">edit</a>
