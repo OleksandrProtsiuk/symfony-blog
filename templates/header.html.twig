@@ -3,7 +3,7 @@
     <header class="blog-header py-3">
         <div class="row flex-nowrap justify-content-between align-items-center">
             <div class="col-4 pt-1">
-                <a class="text-muted" href="#">Subscribe</a>
+                <a class="text-muted" href="" data-toggle="modal" data-target="#subscribeModal">Subscribe</a>
             </div>
             <div class="col-4 text-center">
                 <a class="navbar-brand" href="/">
@@ -21,7 +21,7 @@
 </div>
 
 
-<!-- Modal -->
+<!-- Search Modal -->
 <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -33,6 +33,27 @@
             </div>
             <div class="modal-body">
                 {{ render(controller('App\\Controller\\SearchController::index')) }}
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Subscribe Modal -->
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="subscribeModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Subscribe</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {{ render(controller('App\\Controller\\SubscribeController::index')) }}
             </div>
             <div class="modal-footer">
             </div>

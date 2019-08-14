@@ -14,15 +14,30 @@ class SendMail extends AbstractController
 
     }
 
-    public function registration($name)
+    public function registration($user) // will be used for email-confirm of registration of new user
     {
-        $message = (new \Swift_Message('Hello Email'))
+        $message = (new \Swift_Message('Z-Blog'))
             ->setFrom('pavlo@zibrov.com')
-            ->setTo('')
+            ->setTo($user->getMail())
             ->setBody(
                 $this->renderView(
-                    'emails/registration.html.twig',
-                    ['name' => $name]
+                    'emails/registration.html.twig', [
+                        'name' => $user->getName(),
+                ]),
+                'text/html'
+            );
+
+        $this->mailer->send($message);
+    }
+
+    public function newsletter($subscribe)
+    {
+        $message = (new \Swift_Message('Z-Blog'))
+            ->setFrom('pavlo@zibrov.com')
+            ->setTo($subscribe->email)
+            ->setBody(
+                $this->renderView(
+                    'emails/newsletter.html.twig'
                 ),
                 'text/html'
             );
