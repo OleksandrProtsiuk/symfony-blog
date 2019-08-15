@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 
-use App\Entity\DTO\Subscribe;
+use App\Entity\Subscribe;
 use App\Form\SubscribeType;
 use App\Service\SendMail;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,9 +15,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class SubscribeController extends AbstractController
 {
     /**
-     * @Route("/subscribe", name="subscribe")
+     * @Route("/subscribe/create", name="subscribe_create")
      */
-    public function index(Request $request, SendMail $sendMail): Response
+    public function index(Request $request): Response
     {
         $subscribe = new Subscribe();
         $form = $this->createForm(SubscribeType::class, $subscribe);
@@ -25,10 +25,29 @@ class SubscribeController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $sendMail->newsletter($subscribe);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($subscribe);
+            $entityManager->flush();
+
+            return $this->redirect($request->headers->get('referer'));
         }
+
+        return $this->render('subscribe/index.html.twig', [
+            'subscribe_form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     *  @Route("/subscribe", name="subscribe")
+     */
+    public function new()
+    {
+        $subscribe = new Subscribe();
+        $form = $this->createForm(SubscribeType::class, $subscribe);
+
         return $this->render('subscribe/_form.html.twig', [
             'subscribe_form' => $form->createView(),
         ]);
     }
+
 }

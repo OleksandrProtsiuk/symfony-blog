@@ -8,10 +8,9 @@ class SendMail extends AbstractController
 {
     private $mailer;
 
-    public function __construct(\Swift_Mailer $mailer){
-
+    public function __construct(\Swift_Mailer $mailer)
+    {
         $this->mailer = $mailer;
-
     }
 
     public function registration($user) // will be used for email-confirm of registration of new user
@@ -21,24 +20,29 @@ class SendMail extends AbstractController
             ->setTo($user->getMail())
             ->setBody(
                 $this->renderView(
-                    'emails/registration.html.twig', [
+                    'emails/registration.html.twig',
+                    [
                         'name' => $user->getName(),
-                ]),
+                ]
+                ),
                 'text/html'
             );
 
         $this->mailer->send($message);
     }
 
-    public function newsletter($subscribe)
+    public function newsletter($email, $greet = null)
     {
-        $message = (new \Swift_Message('Z-Blog'))
+        if ($greet) {
+            $view = $this->renderView('emails/greet_newsletter.html.twig');
+        } else {
+            $view = $this->renderView('emails/newsletter.html.twig');
+        }
+        $message = (new \Swift_Message('Z-Blog News'))
             ->setFrom('pavlo@zibrov.com')
-            ->setTo($subscribe->email)
+            ->setTo($email)
             ->setBody(
-                $this->renderView(
-                    'emails/newsletter.html.twig'
-                ),
+                $view,
                 'text/html'
             );
 
