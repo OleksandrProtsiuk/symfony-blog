@@ -9,6 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PostRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Post
 {
@@ -55,6 +56,12 @@ class Post
      * @ORM\ManyToMany(targetEntity="App\Entity\Tag", mappedBy="post")
      */
     private $tags;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min="3")
+     */
+    private $slug;
 
     public function __construct()
     {
@@ -221,6 +228,18 @@ class Post
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }

@@ -72,4 +72,20 @@ class PostRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    /**
+     * @param $slug
+     * @return mixed
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function slug($slug)
+    {
+        return $this->createQueryBuilder('p')
+            ->select('p.id')
+            ->Where('p.slug = :val')
+            ->orWhere('p.id = :val')
+            ->setParameter('val', $slug)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }

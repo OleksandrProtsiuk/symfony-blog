@@ -71,7 +71,7 @@ class CommentController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('post_show', ['id' => $comment->getPostId()]);
+            return $this->redirectToRoute('post_show', ['slug' => $comment->getPostId()->getSlug()]);
         }
 
         return $this->render('comment/edit.html.twig', [

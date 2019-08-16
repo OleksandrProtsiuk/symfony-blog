@@ -41,7 +41,9 @@ class ReactionController extends AbstractController
             $entityManager->persist($reaction);
             $entityManager->flush();
 
-            return $this->redirectToRoute('post_show', ['id' => $post_id]);
+            return $this->redirectToRoute('post_show', [
+                'slug' => $postRepository->find($post_id)->getSlug(),
+            ]);
         }
 
         return $this->render('reaction/new.html.twig', [

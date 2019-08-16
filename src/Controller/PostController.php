@@ -8,7 +8,6 @@ use App\Entity\Reaction;
 use App\Form\CommentType;
 use App\Form\PostType;
 use App\Form\ReactionType;
-use App\Repository\CommentRepository;
 use App\Repository\PostRepository;
 use App\Repository\ReactionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -61,16 +60,17 @@ class PostController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="post_show", methods={"GET", "POST"})
+     * @Route("/{slug}", name="post_show", methods={"GET", "POST"})
+     *
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function show
-    (
-        Post $post,
-        CommentRepository $commentRepository,
-        Request $request,
-        ReactionRepository $reactionRepository
+    public function show(
+        $slug,
+        PostRepository $postRepository,
+        ReactionRepository $reactionRepository,
+        Request $request
     ): Response {
-        $comments = $commentRepository->findBy(['post' => $post->getId()]);
+        $post = $postRepository->find($postRepository->slug($slug));
 
         $comment = new Comment();
         $reaction = new Reaction();
@@ -92,10 +92,8 @@ class PostController extends AbstractController
             $entityManager->persist($reaction);
             $entityManager->flush();
         }
-
-            return $this->render('post/show.html.twig', [
+        return $this->render('post/show.html.twig', [
             'post' => $post,
-            'comments' => $comments,
             'repository' => $reactionRepository,
             'form' => $form->createView(),
             'reaction_form' => $reaction_form->createView(),
@@ -103,7 +101,7 @@ class PostController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="post_edit", methods={"GET","POST"})
+     * @Route("/{slug}/edit", name="post_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Post $post): Response
     {
