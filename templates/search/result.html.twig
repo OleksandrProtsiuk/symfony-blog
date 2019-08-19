@@ -6,9 +6,9 @@
     <h3>Search results:</h3>
     <div class="container">
     {% if results is defined %}
-        {% for post in results %}
+        {% for post in results|rate %}
         <hr>
-        <h3><a href="{{ path('post_show', {'id': post.id}) }}">{{ post.title }}</a></h3>
+        <h3><a href="{{ path('post_show', {'slug': post.id}) }}">{{ post.title }}</a></h3>
         <small><b>Created by: </b>
             {% if post.user.avatar is not empty %}
                 <img src="{{ asset(post.user.avatar.fileName | imagine_filter('description')) }}">
