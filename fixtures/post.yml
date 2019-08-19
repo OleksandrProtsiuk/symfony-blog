@@ -1,0 +1,6 @@
+
+App\Entity\Post:
+  post{1..5}:
+    title: <text(120)>
+    body: <text()>
+    user: '@user_<numberBetween(1,1)>'

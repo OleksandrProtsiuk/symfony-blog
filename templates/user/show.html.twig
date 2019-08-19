@@ -71,8 +71,8 @@
                         {% if user.posts is not empty %}
                             {% for post in user.posts %}
                                 <div class="col">
-                                    <a href="{{ path('post_show', {'id': post.id}) }}">{{ post.title }}</a>
-                                    <a href="{{ path('post_edit', {'id': post.id}) }}">
+                                    <a href="{{ path('post_show', {'slug': post.id}) }}">{{ post.title }}</a>
+                                    <a href="{{ path('post_edit', {'slug': post.id}) }}">
                                     <img src='{{ asset('build/img/edit.svg') }}' height="20"/>
                                 </a>
                                 </div>
@@ -97,7 +97,7 @@
                     <div class="card card-body">
                         {% if user.comments is not empty %}
                             {% for comment in user.comments %}
-                                <a href="{{ path('post_show', {'id': comment.postId}) }}">
+                                <a href="{{ path('post_show', {'slug': comment.postId}) }}">
                                     {{ comment.body|raw}}
                                 </a>
                                 <hr>

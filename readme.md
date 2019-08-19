@@ -59,3 +59,9 @@ then run migrations
     
      php bin/console doctrine:migrations:migrate
      
+4.Run fixtures for creation Admin user and some test posts
+
+   default login/pass: admin / admin
+ 
+    
+    bin/console hautelook:fixtures:load --append
