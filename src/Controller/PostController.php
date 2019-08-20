@@ -67,7 +67,6 @@ class PostController extends AbstractController
     public function show(
         $slug,
         PostRepository $postRepository,
-        ReactionRepository $reactionRepository,
         Request $request
     ): Response {
         $post = $postRepository->getBySlugOrId($slug);
@@ -94,7 +93,6 @@ class PostController extends AbstractController
         }
         return $this->render('post/show.html.twig', [
             'post' => $post,
-            'repository' => $reactionRepository,
             'form' => $form->createView(),
             'reaction_form' => $reaction_form->createView(),
             ]);
