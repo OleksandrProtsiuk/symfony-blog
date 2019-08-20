@@ -3,7 +3,7 @@
 
 {%  if post is defined and post is not empty %}
 
-    {{ form_start(reaction_form, {'action': path('reaction_new', {'post_id': post.id }), 'method': 'POST'}) }}
+    {{ form_start(reaction_form, {'action': path('reaction_new', {'postId': post.id }), 'method': 'POST'}) }}
         {{ form_widget(reaction_form.legend) }}
         {{ form_row(reaction_form.user) }}
 

@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Repository\PostRepository;
-use App\Service\SendMail;
 use Pagerfanta\Pagerfanta;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,7 +14,8 @@ class MainPageController extends AbstractController
     /**
      * @Route("/", name="main_page")
      */
-    public function index(PostRepository $postRepository ): Response {
+    public function index(PostRepository $postRepository): Response
+    {
         $adapter = new DoctrineORMAdapter($postRepository->pagination());
 
         $pager = new Pagerfanta($adapter);
@@ -32,11 +32,11 @@ class MainPageController extends AbstractController
     /**
      * @Route("/email", name="mail")
      */
-    public function preview()
+    public function preview(PostRepository $postRepository)
     {
-        $name = 'Username';
+        $posts = $postRepository->newsletter();
         return $this->render('emails/greet_newsletter.html.twig', [
-            'name' => $name,
+            'posts' => $posts,
         ]);
     }
 }

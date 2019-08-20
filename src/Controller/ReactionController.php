@@ -27,12 +27,12 @@ class ReactionController extends AbstractController
     }
 
     /**
-     * @Route("/new/{post_id}", name="reaction_new", methods={"GET","POST"})
+     * @Route("/new/{postId}", name="reaction_new", methods={"GET","POST"})
      */
-    public function new(Request $request, $post_id, PostRepository $postRepository): Response
+    public function new(Request $request, $postId, PostRepository $postRepository): Response
     {
         $reaction = new Reaction();
-        $reaction->setPostId($postRepository->find($post_id));
+        $reaction->setPost($postRepository->find($postId));
         $reaction_form = $this->createForm(ReactionType::class, $reaction);
         $reaction_form->handleRequest($request);
 
@@ -42,7 +42,7 @@ class ReactionController extends AbstractController
             $entityManager->flush();
 
             return $this->redirectToRoute('post_show', [
-                'slug' => $postRepository->find($post_id)->getSlug(),
+                'slug' => $postRepository->find($postId)->getSlug(),
             ]);
         }
 

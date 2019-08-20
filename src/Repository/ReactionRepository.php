@@ -20,36 +20,8 @@ class ReactionRepository extends ServiceEntityRepository
         parent::__construct($registry, Reaction::class);
     }
 
-    // /**
-    //  * @return Reaction[] Returns an array of Reaction objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function countPostReactionsByLegend($legendName, $postId)
     {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Reaction
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
-
-    public function countPostReactionsByLegend($legendName, $postId) {
         try {
             return $this->createQueryBuilder('r')
                 ->select('count(r.id)')
@@ -64,7 +36,8 @@ class ReactionRepository extends ServiceEntityRepository
         }
     }
 
-    public function countPostReactionsById($postId) {
+    public function countPostReactionsById($postId)
+    {
         try {
             return $this->createQueryBuilder('r')
                 ->select('count(r.id)')
