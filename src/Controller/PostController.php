@@ -45,7 +45,7 @@ class PostController extends AbstractController
             $entityManager->flush();
 
             foreach ($post->getTags() as $t) {
-                $t->addPostId($post);
+                $t->addPost($post);
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($t);
                 $entityManager->flush();
@@ -105,7 +105,7 @@ class PostController extends AbstractController
     {
         $entityManager = $this->getDoctrine()->getManager();
         foreach ($post->getTags() as $t) {
-            $entityManager->persist($t->removePostId($post));
+            $entityManager->persist($t->removePost($post));
         }
         $entityManager->flush();
 
@@ -114,7 +114,7 @@ class PostController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             foreach ($post->getTags() as $t) {
-                $t->addPostId($post);
+                $t->addPost($post);
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($t);
                 $entityManager->flush();

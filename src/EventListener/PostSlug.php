@@ -36,12 +36,6 @@ class PostSlug
 
     public function preFlush(Post $post, PreFlushEventArgs $args)
     {
-        $uow = $args->getEntityManager()->getUnitOfWork();
-
-        foreach ($uow->getScheduledEntityInsertions() as $entity) {
-            if($entity instanceof Post) {
-                $entity->setSlug($this->slug($entity->getId().'-'.$entity->getTitle()));
-            }
-        }
+                $post->setSlug($this->slug($post->getId().'-'.$post->getTitle()));
     }
 }
