@@ -1,6 +1,6 @@
 {%  if post is defined and post is not empty %}
 
-    {{ form_start(form, {'action': path('comment_new', {'post_id': post.id }), 'method': 'POST'}) }}
+    {{ form_start(form, {'action': path('comment_new', {'postId': post.id }), 'method': 'POST'}) }}
     {{ form_row(form.body) }}
     {{ form_row(form.user) }}
 

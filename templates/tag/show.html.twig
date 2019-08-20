@@ -5,13 +5,12 @@
 {% block body %}
 <div class="container">
     <h3>{{ tag.name }}</h3>
-
-    {% for post in posts %}
+    {% for post in posts|rate %}
         <hr>
-        <h3><a href="{{ path('post_show', {'id': post.id}) }}">{{ post.title }}</a></h3>
+        <h3><a href="{{ path('post_show', {'slug': post.id}) }}">{{ post.title }}</a></h3>
         <small><b>Created by: </b>
             {% if post.user.avatar is not empty %}
-                <img src="{{ asset(post.user.avatar.link | imagine_filter('description')) }}">
+                <img src="{{ asset(post.user.avatar.fileName | imagine_filter('description')) }}">
             {% endif %}
             <a href="{{ path('user_show', {'id': post.user}) }}">{{ post.user.name }}</a>
         </small>

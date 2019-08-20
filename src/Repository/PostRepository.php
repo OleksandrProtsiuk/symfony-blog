@@ -19,35 +19,6 @@ class PostRepository extends ServiceEntityRepository
         parent::__construct($registry, Post::class);
     }
 
-    // /**
-    //  * @return Post[] Returns an array of Post objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Post
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
-
     public function pagination()
     {
         return $this->createQueryBuilder('p')
@@ -69,6 +40,34 @@ class PostRepository extends ServiceEntityRepository
         }
 
         return $query->setParameter('s', '%'.$search->title.'%')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @param $slug
+     *
+     * @return mixed
+     *
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function getBySlugOrId($slug)
+    {
+        return $this->createQueryBuilder('p')
+            ->select('p')
+            ->Where('p.slug = :val')
+            ->orWhere('p.id = :val')
+            ->setParameter('val', $slug)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    public function newsletter()
+    {
+        return $this->createQueryBuilder('p')
+            ->select('p')
+            ->orderBy('p.id', 'DESC')
+            ->setMaxResults(5)
             ->getQuery()
             ->getResult();
     }

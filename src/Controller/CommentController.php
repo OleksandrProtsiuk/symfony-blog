@@ -27,12 +27,12 @@ class CommentController extends AbstractController
     }
 
     /**
-     * @Route("/new/{post_id}", name="comment_new", methods={"GET","POST"})
+     * @Route("/new/{postId}", name="comment_new", methods={"GET","POST"})
      */
-    public function new(Request $request, $post_id, PostRepository $postRepository): Response
+    public function new(Request $request, $postId, PostRepository $postRepository): Response
     {
         $comment = new Comment();
-        $comment->setPostId($postRepository->find($post_id));
+        $comment->setPost($postRepository->find($postId));
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
 
@@ -71,7 +71,9 @@ class CommentController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('post_show', ['id' => $comment->getPostId()]);
+            return $this->redirectToRoute('post_show', [
+                'slug' => $comment->getPost()->getSlug(),
+            ]);
         }
 
         return $this->render('comment/edit.html.twig', [

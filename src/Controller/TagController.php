@@ -54,7 +54,7 @@ class TagController extends AbstractController
      */
     public function show(Tag $tag, PostRepository $postRepository): Response
     {
-        foreach($tag->getPostId() as $id){
+        foreach($tag->getPost() as $id){
             $posts[] = $postRepository->find($id->getId());
         }
 

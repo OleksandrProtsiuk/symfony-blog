@@ -32,3 +32,14 @@ services:
     App\Service\Uploader:
         arguments:
             $targetDir: 'uploads/'
+
+    App\EventListener\NewSubscriber:
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }
+
+    post_listener:
+        class: App\EventListener\PostSlug
+        tags:
+            - name: doctrine.orm.entity_listener
+              event: preFlush
+              entity: App\Entity\Post

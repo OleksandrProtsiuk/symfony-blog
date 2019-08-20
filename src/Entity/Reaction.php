@@ -70,30 +70,6 @@ class Reaction
         return $this;
     }
 
-    public function getUserId(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUserId(?User $user_id): self
-    {
-        $this->user = $user_id;
-
-        return $this;
-    }
-
-    public function getPostId(): ?Post
-    {
-        return $this->post;
-    }
-
-    public function setPostId(?Post $post_id): self
-    {
-        $this->post = $post_id;
-
-        return $this;
-    }
-
     public function getUser(): ?User
     {
         return $this->user;
