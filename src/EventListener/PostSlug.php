@@ -3,7 +3,6 @@
 namespace App\EventListener;
 
 use App\Entity\Post;
-use Doctrine\Common\Persistence\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Event\PreFlushEventArgs;
 
 class PostSlug
@@ -24,7 +23,6 @@ class PostSlug
         ];
 
         $text = str_replace($cyr, $lat, $text);
-        //$text = iconv(mb_detect_encoding($text), 'ASCII//TRANSIT//IGNORE', $text);
         $text = preg_replace('~[^\pL\d]+~u', '-', $text);
         $text = preg_replace('~[^-\w]+~', '', $text);
         $text = trim($text, '-');
@@ -36,7 +34,7 @@ class PostSlug
         return $text;
     }
 
-    public function preFlush(PreFlushEventArgs $args)
+    public function preFlush(Post $post, PreFlushEventArgs $args)
     {
         $uow = $args->getEntityManager()->getUnitOfWork();
 
