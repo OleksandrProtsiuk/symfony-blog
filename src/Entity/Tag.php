@@ -56,32 +56,6 @@ class Tag
         return $this;
     }
 
-    /**
-     * @return Collection|Post[]
-     */
-    public function getPostId(): Collection
-    {
-        return $this->post;
-    }
-
-    public function addPostId(Post $postId): self
-    {
-        if (!$this->post->contains($postId)) {
-            $this->post[] = $postId;
-        }
-
-        return $this;
-    }
-
-    public function removePostId(Post $postId): self
-    {
-        if ($this->post->contains($postId)) {
-            $this->post->removeElement($postId);
-        }
-
-        return $this;
-    }
-
     public function __toString()
     {
         return $this->id.'';

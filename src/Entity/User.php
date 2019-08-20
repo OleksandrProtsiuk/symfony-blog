@@ -184,7 +184,7 @@ class User
     {
         if (!$this->comments->contains($comment)) {
             $this->comments[] = $comment;
-            $comment->setUserId($this);
+            $comment->setUser($this);
         }
 
         return $this;
@@ -195,8 +195,8 @@ class User
         if ($this->comments->contains($comment)) {
             $this->comments->removeElement($comment);
             // set the owning side to null (unless already changed)
-            if ($comment->getUserId() === $this) {
-                $comment->setUserId(null);
+            if ($comment->getUser() === $this) {
+                $comment->setUser(null);
             }
         }
 
@@ -215,7 +215,7 @@ class User
     {
         if (!$this->reactions->contains($reaction)) {
             $this->reactions[] = $reaction;
-            $reaction->setUserId($this);
+            $reaction->setUser($this);
         }
 
         return $this;
@@ -226,8 +226,8 @@ class User
         if ($this->reactions->contains($reaction)) {
             $this->reactions->removeElement($reaction);
             // set the owning side to null (unless already changed)
-            if ($reaction->getUserId() === $this) {
-                $reaction->setUserId(null);
+            if ($reaction->getUser() === $this) {
+                $reaction->setUser(null);
             }
         }
 

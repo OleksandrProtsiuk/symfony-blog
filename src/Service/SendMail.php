@@ -15,7 +15,7 @@ class SendMail extends AbstractController
         $this->mailer = $mailer;
         $this->postRepository = $postRepository;
     }
-    
+
     public function newsletter($email, $greet = null)
     {
         if ($greet) {
