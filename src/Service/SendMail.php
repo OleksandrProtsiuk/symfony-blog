@@ -37,17 +37,17 @@ class SendMail extends AbstractController
     public function newsletter($email, $greet = null)
     {
         if ($greet) {
-            $view = $this->renderView('emails/greet_newsletter.html.twig');
+            $view = 'emails/greet_newsletter.html.twig';
         } else {
-            $view = $this->renderView('emails/newsletter.html.twig');
+            $view = 'emails/newsletter.html.twig';
         }
         $message = (new \Swift_Message('Z-Blog News'))
             ->setFrom('pavlo@zibrov.com')
             ->setTo($email)
             ->setBody(
-                $view,[
+                $this->renderView($view,[
                     'posts' => $this->postRepository->newsletter(),
-            ],
+            ]),
                 'text/html'
             );
 
