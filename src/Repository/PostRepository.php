@@ -51,15 +51,15 @@ class PostRepository extends ServiceEntityRepository
      *
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function slug($slug)
+    public function getBySlugOrId($slug)
     {
         return $this->createQueryBuilder('p')
-            ->select('p.id')
+            ->select('p')
             ->Where('p.slug = :val')
             ->orWhere('p.id = :val')
             ->setParameter('val', $slug)
             ->getQuery()
-            ->getSingleScalarResult();
+            ->getOneOrNullResult();
     }
 
     public function newsletter()

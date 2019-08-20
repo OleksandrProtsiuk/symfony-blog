@@ -70,7 +70,7 @@ class PostController extends AbstractController
         ReactionRepository $reactionRepository,
         Request $request
     ): Response {
-        $post = $postRepository->find($postRepository->slug($slug));
+        $post = $postRepository->getBySlugOrId($slug);
 
         $comment = new Comment();
         $reaction = new Reaction();
