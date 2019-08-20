@@ -61,7 +61,7 @@ then run migrations
      
 4.Run fixtures for creation Admin user and some test posts
 
-   default login/pass: admin / admin
+   default login/pass: admin / 12345678
  
     
     bin/console hautelook:fixtures:load --append

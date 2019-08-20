@@ -2,15 +2,18 @@
 
 namespace App\Service;
 
+use App\Repository\PostRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class SendMail extends AbstractController
 {
     private $mailer;
+    private $postRepository;
 
-    public function __construct(\Swift_Mailer $mailer)
+    public function __construct(\Swift_Mailer $mailer, PostRepository $postRepository)
     {
         $this->mailer = $mailer;
+        $this->postRepository = $postRepository;
     }
 
     public function registration($user) // will be used for email-confirm of registration of new user
@@ -42,7 +45,9 @@ class SendMail extends AbstractController
             ->setFrom('pavlo@zibrov.com')
             ->setTo($email)
             ->setBody(
-                $view,
+                $view,[
+                    'posts' => $this->postRepository->newsletter(),
+            ],
                 'text/html'
             );
 
