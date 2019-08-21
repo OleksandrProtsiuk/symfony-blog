@@ -7,13 +7,14 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @UniqueEntity("name")
  * @UniqueEntity("login")
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -44,10 +45,26 @@ class User
     private $password;
 
     /**
-     * @ORM\Column(type="string", length=120)
+     * @ORM\Column(type="json")
      * @Assert\NotBlank()
      */
-    private $role;
+    private $roles;
+
+    /**
+     * @return mixed
+     */
+    public function getRoles()
+    {
+        return $this->roles;
+    }
+
+    /**
+     * @param mixed $roles
+     */
+    public function setRoles($roles): void
+    {
+        $this->roles = $roles;
+    }
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Post", mappedBy="user", orphanRemoval=true)
@@ -128,8 +145,8 @@ class User
         return $this->role;
     }
 
-    const ROLE_ADMIN = 'admin';
-    const ROLE_USER = 'user';
+    const ROLE_ADMIN = 'ROLE_ADMIN';
+    const ROLE_USER = 'ROLE_USER';
 
     public function setRole(string $role): self
     {
@@ -280,5 +297,21 @@ class User
         $this->avatar = $avatar;
 
         return $this;
+    }
+
+    public function eraseCredentials()
+    {
+    }
+
+    public function getSalt() { }
+
+    /**
+     * Returns the username used to authenticate the user.
+     *
+     * @return string The username
+     */
+    public function getUsername()
+    {
+        return $this->name;
     }
 }

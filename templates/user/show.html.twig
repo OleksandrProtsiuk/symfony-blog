@@ -51,7 +51,11 @@
                 </tr>
                 <tr>
                     <th>Role</th>
-                    <td>{{ user.role }}</td>
+                    <td>
+                        {% for role in user.roles %}
+                            {{ role }}<br>
+                        {% endfor %}
+                    </td>
                 </tr>
                 </tbody>
             </table>

@@ -3,4 +3,4 @@ App\Entity\User:
     login: 'admin'
     name: 'Admin'
     password: '12345678'
-    role: 'admin'
+    role: 'ROLE_ADMIN'
