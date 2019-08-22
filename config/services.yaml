@@ -33,7 +33,7 @@ services:
         arguments:
             $targetDir: 'uploads/'
 
-    App\EventListener\NewSubscriber:
+    App\EventListener\MailListener:
         tags:
             - { name: doctrine.event_listener, event: postPersist }
 

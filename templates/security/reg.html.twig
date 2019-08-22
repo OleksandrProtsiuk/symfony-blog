@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+
+    {% if mail is defined %}
+        <p class="alert alert-success">'Check your email <b>{{ mail }}</b> to finish registration</p>
+    {% endif %}
+
+    {{ include('security/_register_form.html.twig') }}
+{% endblock %}

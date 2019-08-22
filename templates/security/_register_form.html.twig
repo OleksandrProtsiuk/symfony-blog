@@ -1,0 +1,11 @@
+{{ form_start(form) }}
+<div class="row">
+    <div class="col-4">
+        {{ form_row(form.email) }}
+        {{ form_row(form.name) }}
+        {{ form_row(form.login) }}
+        {{ form_row(form.password) }}
+    </div>
+</div>
+<button class="btn btn-info">{{ button_label|default('Go!') }}</button>
+{{ form_end(form) }}

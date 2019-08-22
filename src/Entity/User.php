@@ -13,6 +13,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @UniqueEntity("name")
  * @UniqueEntity("login")
+ * @UniqueEntity("email")
  */
 class User implements UserInterface
 {
@@ -90,6 +91,75 @@ class User implements UserInterface
      * @ORM\OneToOne(targetEntity="App\Entity\Media", cascade={"persist", "remove"})
      */
     private $avatar;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
+     * @Assert\NotNull()
+     * @Assert\Length(min="5", max="120")
+     * @Assert\Email(checkHost="true", mode="html5")
+     */
+    private $email;
+
+    /**
+     * @ORM\Column(type="string")
+     * @Assert\NotBlank()
+     * @Assert\NotNull()
+     */
+    private $token;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $verification = false;
+
+    /**
+     * @return mixed
+     */
+    public function getVerification()
+    {
+        return $this->verification;
+    }
+
+    /**
+     * @param mixed $verification
+     */
+    public function setVerification($verification): void
+    {
+        $this->verification = $verification;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getToken()
+    {
+        return $this->token;
+    }
+
+    /**
+     * @param mixed $token
+     */
+    public function setToken($token): void
+    {
+        $this->token = $token;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param mixed $email
+     */
+    public function setEmail($email): void
+    {
+        $this->email = $email;
+    }
 
     public function __construct()
     {
