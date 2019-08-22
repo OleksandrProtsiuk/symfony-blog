@@ -1,6 +1,9 @@
 {{ form_start(form) }}
 <div class="row">
     <div class="col-4">
+        <h1 class="h3 mb-3 font-weight-normal">Please create a new account or
+            <a href="{{ path('app_login') }}">log in</a>
+        </h1>
         {{ form_row(form.email) }}
         {{ form_row(form.name) }}
         {{ form_row(form.login) }}

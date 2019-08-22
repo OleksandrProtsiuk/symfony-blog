@@ -9,7 +9,6 @@ use App\Form\CommentType;
 use App\Form\PostType;
 use App\Form\ReactionType;
 use App\Repository\PostRepository;
-use App\Repository\ReactionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -70,7 +69,6 @@ class PostController extends AbstractController
         Request $request
     ): Response {
         $post = $postRepository->getBySlugOrId($slug);
-
         $comment = new Comment();
         $reaction = new Reaction();
 

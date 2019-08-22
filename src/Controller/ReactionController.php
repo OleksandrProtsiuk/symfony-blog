@@ -32,6 +32,9 @@ class ReactionController extends AbstractController
     public function new(Request $request, $postId, PostRepository $postRepository): Response
     {
         $reaction = new Reaction();
+        /** @var \App\Entity\User $user */
+        $reaction->setUser($this->getUser());
+
         $reaction->setPost($postRepository->find($postId));
         $reaction_form = $this->createForm(ReactionType::class, $reaction);
         $reaction_form->handleRequest($request);

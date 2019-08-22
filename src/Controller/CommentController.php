@@ -32,6 +32,8 @@ class CommentController extends AbstractController
     public function new(Request $request, $postId, PostRepository $postRepository): Response
     {
         $comment = new Comment();
+        /** @var \App\Entity\User $user */
+        $comment->setUser($this->getUser());
         $comment->setPost($postRepository->find($postId));
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);

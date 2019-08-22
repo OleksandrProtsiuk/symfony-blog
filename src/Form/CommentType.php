@@ -18,9 +18,7 @@ class CommentType extends AbstractType
                     'uiColor' => '#e2e2e2',
                     'required' => true,
                 ],
-            ])
-            ->add('user')
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
