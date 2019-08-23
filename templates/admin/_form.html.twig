@@ -1,0 +1,13 @@
+{{ form_start(form) }}
+    <div class="row">
+        <div class="col-6">
+            {{ form_row(form.name) }}
+            {{ form_row(form.login) }}
+            {{ form_row(form.email) }}
+            {{ form_row(form.password) }}
+            {{ form_row(form.roles) }}
+            {{ form_row(form.verification) }}
+        </div>
+    </div>
+    <button class="btn btn-info">{{ button_label|default('Update') }}</button>
+    {{ form_end(form) }}

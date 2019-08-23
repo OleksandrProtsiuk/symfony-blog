@@ -103,10 +103,8 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string")
-     * @Assert\NotBlank()
-     * @Assert\NotNull()
      */
-    private $token;
+    private $token = 'default';
 
     /**
      * @ORM\Column(type="boolean")

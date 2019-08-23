@@ -1,0 +1,162 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User{% endblock %}
+
+{% block body %}
+    <h1>Hello <b>{{ user.name }}</b></h1>
+    <div class="row">
+        <div class="col">
+        {% if user.avatar != NULL  %}
+            <img src="{{ asset(user.avatar.fileName | imagine_filter('avatar')) }}" alt="{{ user.name }}">
+            <br>
+            <button type="button" class="btn btn-link" data-toggle="collapse"
+                    data-target="#editAva" aria-expanded="false" aria-controls="collapseExample">
+                <b>Edit Avatar</b>
+            </button>
+
+            <div class="collapse" id="editAva">
+                <div class="card card-body">
+                    {% set var = {'user': user} %}
+                    {%  include 'user/_avatar_form.html.twig' with var %}
+                </div>
+            </div>
+
+        {% else %}
+            {% if user.media is empty %}
+                <p class="alert alert-info">
+                    <a href="{{ path('media_new') }}" class="btn btn-sm btn-success">Upload</a>
+                    image for Avatar
+                </p>
+            {% else %}
+                {% set var = {'user': user} %}
+                {%  include 'user/_avatar_form.html.twig' with var %}
+            {% endif %}
+        {% endif %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <table class="table">
+                <tbody>
+                <tr>
+                    <th>Info</th>
+                </tr>
+                <tr>
+                    <th>Name</th>
+                    <td>{{ user.name }}</td>
+                </tr>
+                <tr>
+                    <th>Login</th>
+                    <td>{{ user.login }}</td>
+                </tr>
+                <tr>
+                    <th>Role</th>
+                    <td>
+                        {% for role in user.roles %}
+                            {{ role }}<br>
+                        {% endfor %}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <a href="{{ path('user_edit', {'id': user.id}) }}" class="btn btn-sm btn-info btn-block">edit</a>
+        </div>
+
+        <div class="col-6">
+            <a href="{{ path('post_new') }}" class="btn btn-bg btn-block btn-info">New Post</a>
+            <br/>
+            <div class="row">
+                <button type="button" class="btn btn-link" data-toggle="collapse" data-target="#post" aria-expanded="false" aria-controls="collapseExample">
+                    <b>Posts:</b>
+                </button>
+
+                <div class="collapse" id="post">
+                    <div class="card card-body">
+                        {% if user.posts is not empty %}
+                            {% for post in user.posts %}
+                                <div class="col">
+                                    <a href="{{ path('post_show', {'slug': post.id}) }}">{{ post.title }}</a>
+                                    <a href="{{ path('post_edit', {'slug': post.id}) }}">
+                                    <img src='{{ asset('build/img/edit.svg') }}' height="20"/>
+                                </a>
+                                </div>
+                                <hr>
+                            {% endfor %}
+                            {% else %}
+                                <p class="alert alert-info">
+                                    You have no posts yet..
+                                    <a href="{{ path('post_new') }}" class="btn btn-sm btn-block btn-info">Create New Post</a>
+                                </p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <button type="button" class="btn btn-link" data-toggle="collapse" data-target="#comment" aria-expanded="false" aria-controls="collapseExample">
+                    <b>Comments:</b>
+                </button>
+
+                <div class="collapse" id="comment">
+                    <div class="card card-body">
+                        {% if user.comments is not empty %}
+                            {% for comment in user.comments %}
+                                <a href="{{ path('post_show', {'slug': comment.post}) }}">
+                                    {{ comment.body|raw}}
+                                </a>
+                                <hr>
+                            {% endfor %}
+                        {% else %}
+                            <p class="alert alert-info">
+                                You have no comments yet..
+                                <a href="{{ path('main_page') }}" class="btn btn-sm btn-block btn-info">Comment something</a>
+                            </p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <button type="button" class="btn btn-link" data-toggle="collapse" data-target="#media" aria-expanded="false" aria-controls="collapseExample">
+                    <b>Media:</b>
+                </button>
+
+                <div class="collapse" id="media">
+                    <div class="card card-body">
+                        {% if user.media is not empty %}
+                            {% for medium in user.media %}
+                                <table class="table">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <img src="{{ asset(medium.fileName | imagine_filter('preview')) }}" alt="{{ medium.id }}">
+                                            </td>
+                                            <td>
+                                                <a href="{{ path('media_edit', {'id': medium.id}) }}"
+                                                class="btn btn-sm btn-info">Edit</a>
+                                            </td>
+                                            <td>
+                                                {{ include('media/_delete_form.html.twig') }}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <hr>
+                            {% endfor %}
+                        {% else %}
+                            <p class="alert alert-info">
+                                You have no media yet..
+                                <a href="{{ path('media_new') }}" class="btn btn-sm btn-info">Upload</a>
+                            </p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <td>
+        {{ include('user/_delete_form.html.twig') }}
+    </td>
+{% endblock %}

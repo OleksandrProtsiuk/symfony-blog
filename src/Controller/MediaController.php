@@ -21,6 +21,7 @@ class MediaController extends AbstractController
      */
     public function index(MediaRepository $mediaRepository): Response
     {
+        $this->denyAccessUnlessGranted( ['ROLE_ADMIN',]);
         return $this->render('media/index.html.twig', [
             'media' => $mediaRepository->findAll(),
         ]);

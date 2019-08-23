@@ -21,6 +21,7 @@ class CommentController extends AbstractController
      */
     public function index(CommentRepository $commentRepository): Response
     {
+        $this->denyAccessUnlessGranted( ['ROLE_ADMIN',]);
         return $this->render('comment/index.html.twig', [
             'comments' => $commentRepository->findAll(),
         ]);

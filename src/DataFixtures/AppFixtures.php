@@ -12,9 +12,9 @@ class AppFixtures extends Fixture
     {
         $user = new User();
         $user->setName('Admin');
-        $user->setLogin('admin');
-        $user->setPassword('admin');
-        $user->setRole('admin');
+        $user->setLogin('Admin');
+        $user->setPassword('Admin');
+        $user->setRole('Admin');
 
         $manager->persist($user);
         $manager->flush();

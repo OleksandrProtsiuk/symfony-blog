@@ -24,6 +24,7 @@ class PostController extends AbstractController
      */
     public function index(PostRepository $postRepository): Response
     {
+        $this->denyAccessUnlessGranted( ['ROLE_ADMIN',]);
         return $this->render('post/index.html.twig', [
             'posts' => $postRepository->findAll(),
         ]);
