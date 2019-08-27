@@ -6,6 +6,7 @@ use App\Entity\Media;
 use App\Form\MediaType;
 use App\Repository\MediaRepository;
 use App\Service\Uploader;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,6 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/medias")
+ * @IsGranted("IS_AUTHENTICATED_FULLY")
  */
 class MediaController extends AbstractController
 {
@@ -33,6 +35,8 @@ class MediaController extends AbstractController
     public function new(Request $request, Uploader $uploader): Response
     {
         $medium = new Media();
+        /** @var \App\Entity\User $user */
+        $medium->setUser($this->getUser());
         $form = $this->createForm(MediaType::class, $medium);
         $form->handleRequest($request);
 

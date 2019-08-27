@@ -16,7 +16,6 @@ class MediaType extends AbstractType
             ->add('file', FileType::class, [
                 'data_class' => null,
             ])
-            ->add('user')
         ;
     }
 

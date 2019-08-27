@@ -50,13 +50,13 @@
                     <td>{{ user.login }}</td>
                 </tr>
                 <tr>
-                    <th>Role</th>
                     <td>
-                        {% for role in user.roles %}
-                            {{ role }}<br>
-                        {% endfor %}
+                        {% if is_granted('ROLE_ADMIN') %}
+                         <a href="{{ path('admin_index') }}" class="btn btn-block btn-warning">Admin Dashdoard</a>
+                        {% endif %}
                     </td>
                 </tr>
+
                 </tbody>
             </table>
             <a href="{{ path('user_edit', {'id': user.id}) }}" class="btn btn-sm btn-info btn-block">edit</a>

@@ -36,6 +36,8 @@ class PostController extends AbstractController
     public function new(Request $request): Response
     {
         $post = new Post();
+        /** @var \App\Entity\User $user */
+        $post->setUser($this->getUser());
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
 

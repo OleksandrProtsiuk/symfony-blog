@@ -22,6 +22,7 @@ class UserController extends AbstractController
      */
     public function index(UserRepository $userRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         return $this->render('user/index.html.twig', [
             'users' => $userRepository->findAll(),
         ]);
@@ -32,6 +33,7 @@ class UserController extends AbstractController
      */
     public function new(Request $request): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $user = new User();
         $user->setRoles(["ROLE_USER"]);
         $form = $this->createForm(UserType::class, $user);
@@ -54,8 +56,12 @@ class UserController extends AbstractController
     /**
      * @Route("/{id}", name="user_show", methods={"GET", "POST"})
      */
-    public function show(User $user, Request $request, MediaRepository $mediaRepository): Response
+    public function show(Request $request, MediaRepository $mediaRepository): Response
     {
+        /** @var \App\Entity\User $user */
+        $user = $this->getUser();
+
+        $this->denyAccessUnlessGranted('view', $user);
         $form = $this->createForm(AvatarType::class, $user);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -78,6 +84,11 @@ class UserController extends AbstractController
      */
     public function edit(Request $request, User $user): Response
     {
+        /** @var \App\Entity\User $user */
+        $user = $this->getUser();
+        $this->denyAccessUnlessGranted('view', $user);
+
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
@@ -98,6 +109,7 @@ class UserController extends AbstractController
      */
     public function delete(Request $request, User $user): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($user);
