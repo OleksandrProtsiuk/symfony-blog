@@ -208,23 +208,8 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getRole(): ?string
-    {
-        return $this->role;
-    }
-
     const ROLE_ADMIN = 'ROLE_ADMIN';
     const ROLE_USER = 'ROLE_USER';
-
-    public function setRole(string $role): self
-    {
-        if (!in_array($role, [self::ROLE_ADMIN, self::ROLE_USER])) {
-            throw new \InvalidArgumentException('Invalid role');
-        }
-        $this->role = $role;
-
-        return $this;
-    }
 
     /**
      * @return Collection|Post[]

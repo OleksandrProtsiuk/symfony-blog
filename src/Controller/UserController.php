@@ -84,8 +84,6 @@ class UserController extends AbstractController
      */
     public function edit(Request $request, User $user): Response
     {
-        /** @var \App\Entity\User $user */
-        $user = $this->getUser();
         $this->denyAccessUnlessGranted('view', $user);
 
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
