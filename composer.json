@@ -6,6 +6,8 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "friendsofsymfony/ckeditor-bundle": "^2.1",
+        "friendsofsymfony/rest-bundle": "^2.5",
+        "jms/serializer-bundle": "^3.4",
         "liip/imagine-bundle": "^2.1",
         "pugx/autocompleter-bundle": "^1.4",
         "sensio/framework-extra-bundle": "^5.4",
@@ -22,6 +24,7 @@
         "symfony/orm-pack": "^1.0",
         "symfony/process": "4.3.*",
         "symfony/security-bundle": "4.3.*",
+        "symfony/serializer": "4.3.*",
         "symfony/serializer-pack": "*",
         "symfony/swiftmailer-bundle": "^3.2",
         "symfony/translation": "4.3.*",
@@ -30,7 +33,9 @@
         "symfony/web-link": "4.3.*",
         "symfony/yaml": "4.3.*",
         "twig/extensions": "^1.5",
-        "white-october/pagerfanta-bundle": "^1.2"
+        "white-october/pagerfanta-bundle": "^1.2",
+      "ext-http": "*",
+      "ext-json": "*"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.2",

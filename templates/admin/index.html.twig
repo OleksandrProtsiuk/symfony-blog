@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin Panel{% endblock %}
+
+{% block body %}
+    <h1>Admin Dashboard
+        <a href="{{ path('tag_index') }}" class="btn btn-sm btn-info">Tags</a>
+        <a href="{{ path('post_index') }}" class="btn btn-sm btn-info">Posts</a>
+        <a href="{{ path('comment_index') }}" class="btn btn-sm btn-info">Comments</a>
+        <a href="{{ path('media_index') }}" class="btn btn-sm btn-info">Media</a>
+    </h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Avatar</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Is Confirmed</th>
+                <th>Role</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            {% if user.verification != 1 %}
+                <tr style="background: coral;">
+            {% else %}
+                <tr>
+            {% endif %}
+                <td>{{ user.id }}</td>
+                <td>
+                    {% if user.avatar is not empty %}
+                        <img src="{{ asset(user.avatar.fileName| imagine_filter('description')) }}">
+                    {% else %}
+                        No Avatar
+                    {% endif %}
+                </td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.verification }}</td>
+                <td>
+                    {% for role in user.roles %}
+                        {{ role }}
+                    {% endfor %}
+                </td>
+                <td>
+                    <div class="row">
+                        <a href="{{ path('admin_show', {'id': user.id}) }}" class="btn btn-sm btn-success">show</a> -
+
+                        <a href="{{ path('admin_edit', {'id': user.id}) }}" class="btn btn-sm btn-info">edit</a> -
+
+                        {{ include('admin/_delete_form.html.twig') }}
+                    </div>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('admin_new') }}" class="btn btn-sm btn-success">Create new User</a>
+{% endblock %}

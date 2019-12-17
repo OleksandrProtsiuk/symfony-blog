@@ -9,7 +9,6 @@ use App\Form\CommentType;
 use App\Form\PostType;
 use App\Form\ReactionType;
 use App\Repository\PostRepository;
-use App\Repository\ReactionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,6 +24,7 @@ class PostController extends AbstractController
      */
     public function index(PostRepository $postRepository): Response
     {
+        $this->denyAccessUnlessGranted( ['ROLE_ADMIN',]);
         return $this->render('post/index.html.twig', [
             'posts' => $postRepository->findAll(),
         ]);
@@ -36,6 +36,8 @@ class PostController extends AbstractController
     public function new(Request $request): Response
     {
         $post = new Post();
+        /** @var \App\Entity\User $user */
+        $post->setUser($this->getUser());
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
 
@@ -70,7 +72,6 @@ class PostController extends AbstractController
         Request $request
     ): Response {
         $post = $postRepository->getBySlugOrId($slug);
-
         $comment = new Comment();
         $reaction = new Reaction();
 

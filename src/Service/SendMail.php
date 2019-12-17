@@ -35,4 +35,24 @@ class SendMail extends AbstractController
 
         $this->mailer->send($message);
     }
+
+    public function registration($user)
+    {
+        $message = (new \Swift_Message('Z-Blog'))
+            ->setFrom('pavlo@zibrov.com')
+            ->setTo($user->getEmail())
+            ->setBody(
+                $this->renderView(
+                    'emails/registration.html.twig',
+                    [
+                        'name' => $user->getName(),
+                        'mail' => $user->getEmail(),
+                        'token' => $user->getToken(),
+                    ]
+                ),
+                'text/html'
+            );
+
+        $this->mailer->send($message);
+    }
 }

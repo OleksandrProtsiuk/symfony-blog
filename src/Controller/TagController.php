@@ -21,6 +21,7 @@ class TagController extends AbstractController
      */
     public function index(TagRepository $tagRepository): Response
     {
+        $this->denyAccessUnlessGranted( ['ROLE_ADMIN',]);
         return $this->render('tag/index.html.twig', [
             'tags' => $tagRepository->findAll(),
         ]);
@@ -32,6 +33,7 @@ class TagController extends AbstractController
     public function new(Request $request): Response
     {
         $tag = new Tag();
+        $this->denyAccessUnlessGranted( ['ROLE_ADMIN',], $tag);
         $form = $this->createForm(TagType::class, $tag);
         $form->handleRequest($request);
 
@@ -54,6 +56,7 @@ class TagController extends AbstractController
      */
     public function show(Tag $tag, PostRepository $postRepository): Response
     {
+        $this->denyAccessUnlessGranted( ['ROLE_USER', 'ROLE_ADMIN',], $tag);
         foreach($tag->getPost() as $id){
             $posts[] = $postRepository->find($id->getId());
         }
@@ -69,6 +72,7 @@ class TagController extends AbstractController
      */
     public function edit(Request $request, Tag $tag): Response
     {
+        $this->denyAccessUnlessGranted( ['ROLE_ADMIN',], $tag);
         $form = $this->createForm(TagType::class, $tag);
         $form->handleRequest($request);
 
@@ -89,6 +93,7 @@ class TagController extends AbstractController
      */
     public function delete(Request $request, Tag $tag): Response
     {
+        $this->denyAccessUnlessGranted( ['ROLE_ADMIN',], $tag);
         if ($this->isCsrfTokenValid('delete'.$tag->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($tag);

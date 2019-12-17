@@ -25,7 +25,6 @@ class ReactionType extends AbstractType
                 'multiple' => false,
                 'label' => false,
             ])
-            ->add('user')
         ;
     }
 

@@ -1,67 +1,68 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use App\Entity\User;
 use App\Form\AvatarType;
-use App\Form\UserType;
+use App\Form\Admin\AdminUserType;
 use App\Repository\MediaRepository;
 use App\Repository\UserRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
- * @Route("/users")
+ * @Route("/admin")
+ * @IsGranted("ROLE_ADMIN")
  */
 class UserController extends AbstractController
 {
     /**
-     * @Route("/", name="user_index", methods={"GET"})
+     * @Route("/", name="admin_index", methods={"GET"})
      */
     public function index(UserRepository $userRepository): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
-        return $this->render('user/index.html.twig', [
+        return $this->render('admin/index.html.twig', [
             'users' => $userRepository->findAll(),
         ]);
     }
 
     /**
-     * @Route("/new", name="user_new", methods={"GET","POST"})
+     * @Route("/new", name="admin_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, UserPasswordEncoderInterface $encoder): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $user = new User();
-        $user->setRoles(["ROLE_USER"]);
-        $form = $this->createForm(UserType::class, $user);
+        $user->setRoles(["ROLE_ADMIN"]);
+        $user->setVerification(true);
+
+        $form = $this->createForm(AdminUserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
 
-           return $this->redirectToRoute('user_index');
+           return $this->redirectToRoute('admin_index');
         }
 
-        return $this->render('user/new.html.twig', [
+        return $this->render('admin/new.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/{id}", name="user_show", methods={"GET", "POST"})
+     * @Route("/{id}", name="admin_show", methods={"GET", "POST"})
      */
-    public function show(Request $request, MediaRepository $mediaRepository): Response
+    public function show(User $user, Request $request, MediaRepository $mediaRepository): Response
     {
-        /** @var \App\Entity\User $user */
-        $user = $this->getUser();
-
-        $this->denyAccessUnlessGranted('view', $user);
         $form = $this->createForm(AvatarType::class, $user);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -70,50 +71,47 @@ class UserController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('user_show', ['id' => $user->getId()]);
+            return $this->redirectToRoute('admin_show', ['id' => $user->getId()]);
         }
 
-        return $this->render('user/show.html.twig', [
+        return $this->render('admin/show.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/{id}/edit", name="user_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="admin_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, User $user): Response
+    public function edit(Request $request, User $user, UserPasswordEncoderInterface $encoder): Response
     {
-        $this->denyAccessUnlessGranted('view', $user);
-
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(AdminUserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            //$user->setPassword($encoder->encodePassword($user, $user->getPassword()));
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('user_index');
+            return $this->redirectToRoute('admin_index');
         }
 
-        return $this->render('user/edit.html.twig', [
+        return $this->render('admin/edit.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/{id}", name="user_delete", methods={"DELETE"})
+     * @Route("/{id}", name="admin_delete", methods={"DELETE"})
      */
     public function delete(Request $request, User $user): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($user);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('user_index');
+        return $this->redirectToRoute('admin_index');
     }
 }

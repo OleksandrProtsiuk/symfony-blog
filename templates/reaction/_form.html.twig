@@ -5,7 +5,7 @@
 
     {{ form_start(reaction_form, {'action': path('reaction_new', {'postId': post.id }), 'method': 'POST'}) }}
         {{ form_widget(reaction_form.legend) }}
-        {{ form_row(reaction_form.user) }}
+
 
     <button class="btn btn-warning btn-block">{{ button_label|default('Save') }}</button>
     {{ form_end(reaction_form) }}
@@ -14,7 +14,6 @@
 
     {{ form_start(reaction_form) }}
     {{ form_widget(reaction_form.legend) }}
-    {{ form_row(reaction_form.user) }}
 
     <button class="btn btn-warning btn-block">{{ button_label|default('Save') }}</button>
     {{ form_end(reaction_form) }}

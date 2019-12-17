@@ -7,13 +7,15 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @UniqueEntity("name")
  * @UniqueEntity("login")
+ * @UniqueEntity("email")
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -44,10 +46,26 @@ class User
     private $password;
 
     /**
-     * @ORM\Column(type="string", length=120)
+     * @ORM\Column(type="json")
      * @Assert\NotBlank()
      */
-    private $role;
+    private $roles;
+
+    /**
+     * @return mixed
+     */
+    public function getRoles()
+    {
+        return $this->roles;
+    }
+
+    /**
+     * @param mixed $roles
+     */
+    public function setRoles($roles): void
+    {
+        $this->roles = $roles;
+    }
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Post", mappedBy="user", orphanRemoval=true)
@@ -73,6 +91,73 @@ class User
      * @ORM\OneToOne(targetEntity="App\Entity\Media", cascade={"persist", "remove"})
      */
     private $avatar;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
+     * @Assert\NotNull()
+     * @Assert\Length(min="5", max="120")
+     * @Assert\Email(checkHost="true", mode="html5")
+     */
+    private $email;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $token = 'default';
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $verification = false;
+
+    /**
+     * @return mixed
+     */
+    public function getVerification()
+    {
+        return $this->verification;
+    }
+
+    /**
+     * @param mixed $verification
+     */
+    public function setVerification($verification): void
+    {
+        $this->verification = $verification;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getToken()
+    {
+        return $this->token;
+    }
+
+    /**
+     * @param mixed $token
+     */
+    public function setToken($token): void
+    {
+        $this->token = $token;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param mixed $email
+     */
+    public function setEmail($email): void
+    {
+        $this->email = $email;
+    }
 
     public function __construct()
     {
@@ -123,23 +208,8 @@ class User
         return $this;
     }
 
-    public function getRole(): ?string
-    {
-        return $this->role;
-    }
-
-    const ROLE_ADMIN = 'admin';
-    const ROLE_USER = 'user';
-
-    public function setRole(string $role): self
-    {
-        if (!in_array($role, [self::ROLE_ADMIN, self::ROLE_USER])) {
-            throw new \InvalidArgumentException('Invalid role');
-        }
-        $this->role = $role;
-
-        return $this;
-    }
+    const ROLE_ADMIN = 'ROLE_ADMIN';
+    const ROLE_USER = 'ROLE_USER';
 
     /**
      * @return Collection|Post[]
@@ -280,5 +350,21 @@ class User
         $this->avatar = $avatar;
 
         return $this;
+    }
+
+    public function eraseCredentials()
+    {
+    }
+
+    public function getSalt() { }
+
+    /**
+     * Returns the username used to authenticate the user.
+     *
+     * @return string The username
+     */
+    public function getUsername()
+    {
+        return $this->name;
     }
 }
